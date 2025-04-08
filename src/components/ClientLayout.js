@@ -18,15 +18,17 @@ export default function ClientLayout({ children, currentPageName }) {
 
   useEffect(() => {
     const userData = Cookies.get("userData");
-    if (!userData) {
+    if (!userData && window.location.pathname !== "/") {
       router.push("/");
       return;
     }
 
     try {
-      const parsedUserData = JSON.parse(userData);
-      setCurrentUser(parsedUserData);
-      setIsHebrew(parsedUserData.language_preference === "hebrew");
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+        setCurrentUser(parsedUserData);
+        setIsHebrew(parsedUserData.language_preference === "hebrew");
+      }
     } catch (error) {
       console.error("Error parsing user data:", error);
       router.push("/");
