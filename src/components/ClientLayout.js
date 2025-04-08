@@ -86,7 +86,6 @@ export default function ClientLayout({ children, currentPageName }) {
 
   let navigation = [
     { name: t.home, href: "/dashboard" },
-    { name: t.services, href: "/services" },
     { name: t.bookNow, href: "/book" },
     { name: t.about, href: "/about" },
   ];

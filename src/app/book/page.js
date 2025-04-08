@@ -19,6 +19,7 @@ import {
   FormControl,
   FormLabel,
 } from '@mui/material';
+import AvailableSlotsCard from '@/components/AvailableSlotsCard';
 
 export default function BookPage() {
   const [services, setServices] = useState([]);
@@ -123,41 +124,13 @@ export default function BookPage() {
               onChange={(e) => setSelectedDate(e.target.value)}
               InputLabelProps={{ shrink: true }}
             />
-            <TextField
-              type="time"
-              label="Time"
-              value={selectedTime}
-              onChange={(e) => setSelectedTime(e.target.value)}
-              InputLabelProps={{ shrink: true }}
-            />
           </Box>
-        </CardContent>
-      </Card>
-
-      <Card className="mb-6">
-        <CardHeader title="Your Information" />
-        <CardContent>
-          <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField
-              label="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              fullWidth
-            />
-            <TextField
-              label="Phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              fullWidth
-            />
-            <TextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              fullWidth
-            />
-          </Box>
+          
+          <AvailableSlotsCard 
+            barberId={selectedBarber}
+            selectedDate={selectedDate}
+            onSlotSelect={(time) => setSelectedTime(time)}
+          />
         </CardContent>
       </Card>
 
