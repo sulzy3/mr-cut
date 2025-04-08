@@ -33,8 +33,11 @@ export class Service {
 
   async save() {
     try {
-      const response = await fetch('/api/services', {
-        method: 'POST',
+      const method = this.id ? 'PUT' : 'POST';
+      const url = this.id ? `/api/services/${this.id}` : '/api/services';
+      
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -42,37 +45,15 @@ export class Service {
           name: this.name,
           description: this.description,
           price: this.price,
-          duration: this.duration,
+          duration: this.duration
         }),
       });
+
       if (!response.ok) throw new Error('Failed to save service');
       const data = await response.json();
-      this.id = data.id;
-      return this;
+      return new Service(data);
     } catch (error) {
       console.error('Error saving service:', error);
-      throw error;
-    }
-  }
-
-  async update() {
-    try {
-      const response = await fetch(`/api/services/${this.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: this.name,
-          description: this.description,
-          price: this.price,
-          duration: this.duration,
-        }),
-      });
-      if (!response.ok) throw new Error('Failed to update service');
-      return this;
-    } catch (error) {
-      console.error('Error updating service:', error);
       throw error;
     }
   }
@@ -82,7 +63,9 @@ export class Service {
       const response = await fetch(`/api/services/${this.id}`, {
         method: 'DELETE',
       });
+
       if (!response.ok) throw new Error('Failed to delete service');
+      return true;
     } catch (error) {
       console.error('Error deleting service:', error);
       throw error;

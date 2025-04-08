@@ -5,6 +5,15 @@ export class Barber {
     this.email = data.email;
     this.phone = data.phone;
     this.specialties = data.specialties || [];
+    this.workingHours = data.workingHours || {
+      monday: { start: '09:00', end: '17:00' },
+      tuesday: { start: '09:00', end: '17:00' },
+      wednesday: { start: '09:00', end: '17:00' },
+      thursday: { start: '09:00', end: '17:00' },
+      friday: { start: '09:00', end: '17:00' },
+      saturday: { start: '09:00', end: '17:00' },
+      sunday: { start: '09:00', end: '17:00' }
+    };
     this.photoUrl = data.photoUrl;
     this.bio = data.bio;
   }
@@ -35,8 +44,11 @@ export class Barber {
 
   async save() {
     try {
-      const response = await fetch('/api/barbers', {
-        method: 'POST',
+      const method = this.id ? 'PUT' : 'POST';
+      const url = this.id ? `/api/barbers/${this.id}` : '/api/barbers';
+      
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -45,40 +57,17 @@ export class Barber {
           email: this.email,
           phone: this.phone,
           specialties: this.specialties,
+          workingHours: this.workingHours,
           photoUrl: this.photoUrl,
           bio: this.bio,
         }),
       });
+
       if (!response.ok) throw new Error('Failed to save barber');
       const data = await response.json();
-      this.id = data.id;
-      return this;
+      return new Barber(data);
     } catch (error) {
       console.error('Error saving barber:', error);
-      throw error;
-    }
-  }
-
-  async update() {
-    try {
-      const response = await fetch(`/api/barbers/${this.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: this.name,
-          email: this.email,
-          phone: this.phone,
-          specialties: this.specialties,
-          photoUrl: this.photoUrl,
-          bio: this.bio,
-        }),
-      });
-      if (!response.ok) throw new Error('Failed to update barber');
-      return this;
-    } catch (error) {
-      console.error('Error updating barber:', error);
       throw error;
     }
   }
@@ -88,7 +77,9 @@ export class Barber {
       const response = await fetch(`/api/barbers/${this.id}`, {
         method: 'DELETE',
       });
+
       if (!response.ok) throw new Error('Failed to delete barber');
+      return true;
     } catch (error) {
       console.error('Error deleting barber:', error);
       throw error;
