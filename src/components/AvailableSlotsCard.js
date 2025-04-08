@@ -16,6 +16,7 @@ const AvailableSlotsCard = ({ barberId, selectedDate, onSlotSelect }) => {
   const [availableSlots, setAvailableSlots] = useState([]);
   const [nextWorkingDay, setNextWorkingDay] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedSlot, setSelectedSlot] = useState(null);
 
   useEffect(() => {
     const fetchAvailableSlots = async () => {
@@ -105,10 +106,21 @@ const AvailableSlotsCard = ({ barberId, selectedDate, onSlotSelect }) => {
                   {availableSlots.map((slot) => (
                     <Grid item xs={4} key={slot}>
                       <Button
-                        variant="outlined"
+                        variant={selectedSlot === slot ? "contained" : "outlined"}
                         fullWidth
-                        onClick={() => onSlotSelect(slot)}
-                        className="border-[#2D5043] text-[#2D5043] hover:bg-[#2D5043] hover:text-white"
+                        onClick={() => {
+                          setSelectedSlot(slot);
+                          onSlotSelect(slot);
+                        }}
+                        sx={{
+                          color: selectedSlot === slot ? 'white' : '#2D5043',
+                          borderColor: '#2D5043',
+                          '&:hover': {
+                            backgroundColor: '#2D5043',
+                            color: 'white',
+                            borderColor: '#2D5043'
+                          }
+                        }}
                       >
                         {slot}
                       </Button>

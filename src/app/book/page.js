@@ -18,8 +18,13 @@ import {
   FormControlLabel,
   FormControl,
   FormLabel,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import AvailableSlotsCard from '@/components/AvailableSlotsCard';
+import Cookies from 'js-cookie';
 
 export default function BookPage() {
   const [services, setServices] = useState([]);
@@ -30,7 +35,7 @@ export default function BookPage() {
   const [selectedTime, setSelectedTime] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -39,6 +44,14 @@ export default function BookPage() {
         const barbersData = await Barber.getAll();
         setServices(servicesData);
         setBarbers(barbersData);
+
+        // Get user data from cookies
+        const userData = Cookies.get('userData');
+        if (userData) {
+          const { name, phoneNumber } = JSON.parse(userData);
+          setName(name);
+          setPhone(phoneNumber);
+        }
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -48,6 +61,10 @@ export default function BookPage() {
   }, []);
 
   const handleSubmit = async () => {
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmBooking = async () => {
     try {
       const appointment = new Appointment({
         serviceId: selectedService,
@@ -56,14 +73,27 @@ export default function BookPage() {
         time: selectedTime,
         customerName: name,
         customerPhone: phone,
-        customerEmail: email,
       });
 
       await appointment.save();
+      setShowConfirmation(false);
       // Handle success (e.g., show confirmation, redirect)
     } catch (error) {
       console.error('Error creating appointment:', error);
       // Handle error
+    }
+  };
+
+  const getSelectedService = () => services.find(s => s.id === selectedService);
+  const getSelectedBarber = () => barbers.find(b => b.id === selectedBarber);
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    try {
+      return format(new Date(dateString), 'PPP');
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return dateString;
     }
   };
 
@@ -133,6 +163,27 @@ export default function BookPage() {
           />
         </CardContent>
       </Card>
+
+      <Dialog open={showConfirmation} onClose={() => setShowConfirmation(false)}>
+        <DialogTitle>Confirm Your Appointment</DialogTitle>
+        <DialogContent>
+          <Box className="space-y-4">
+            <Typography><strong>Service:</strong> {getSelectedService()?.name}</Typography>
+            <Typography><strong>Price:</strong> ${getSelectedService()?.price}</Typography>
+            <Typography><strong>Barber:</strong> {getSelectedBarber()?.name}</Typography>
+            <Typography><strong>Date:</strong> {formatDate(selectedDate)}</Typography>
+            <Typography><strong>Time:</strong> {selectedTime}</Typography>
+            <Typography><strong>Name:</strong> {name}</Typography>
+            <Typography><strong>Phone:</strong> {phone}</Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowConfirmation(false)}>Cancel</Button>
+          <Button onClick={handleConfirmBooking} variant="contained" className="bg-[#2D5043] hover:bg-[#233D34]">
+            Confirm Booking
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Button
         variant="contained"
