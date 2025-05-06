@@ -1,0 +1,12 @@
+FROM dpage/pgadmin4:latest
+
+# Environment variables for initial setup
+ENV PGADMIN_DEFAULT_EMAIL=admin@admin.com
+ENV PGADMIN_DEFAULT_PASSWORD=admin
+
+# Expose the web interface port
+EXPOSE 80
+
+# Set the default command to run pgAdmin
+CMD ["python", "/pgadmin4/run_pgadmin.py"]
+

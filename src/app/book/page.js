@@ -22,6 +22,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Container,
+  Stack,
 } from '@mui/material';
 import AvailableSlotsCard from '@/components/AvailableSlotsCard';
 import Cookies from 'js-cookie';
@@ -98,101 +100,119 @@ export default function BookPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-3xl font-bold text-[#2D5043] mb-8">Book an Appointment</h1>
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Typography variant="h4" sx={{ color: '#2D5043', fontWeight: 'bold', mb: 4 }}>
+        Book an Appointment
+      </Typography>
       
-      <Card className="mb-6">
-        <CardHeader title="Select Service" />
-        <CardContent>
-          <FormControl component="fieldset">
-            <RadioGroup
-              value={selectedService}
-              onChange={(e) => setSelectedService(e.target.value)}
-            >
-              {services.map((service) => (
-                <FormControlLabel
-                  key={service.id}
-                  value={service.id}
-                  control={<Radio />}
-                  label={`${service.name} - $${service.price}`}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-        </CardContent>
-      </Card>
+      <Stack spacing={3}>
+        <Card>
+          <CardHeader title="Select Service" />
+          <CardContent>
+            <FormControl component="fieldset">
+              <RadioGroup
+                value={selectedService}
+                onChange={(e) => setSelectedService(e.target.value)}
+              >
+                {services.map((service) => (
+                  <FormControlLabel
+                    key={service.id}
+                    value={service.id}
+                    control={<Radio />}
+                    label={`${service.name} - $${service.price}`}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          </CardContent>
+        </Card>
 
-      <Card className="mb-6">
-        <CardHeader title="Select Barber" />
-        <CardContent>
-          <FormControl component="fieldset">
-            <RadioGroup
-              value={selectedBarber}
-              onChange={(e) => setSelectedBarber(e.target.value)}
-            >
-              {barbers.map((barber) => (
-                <FormControlLabel
-                  key={barber.id}
-                  value={barber.id}
-                  control={<Radio />}
-                  label={barber.name}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-        </CardContent>
-      </Card>
+        <Card>
+          <CardHeader title="Select Barber" />
+          <CardContent>
+            <FormControl component="fieldset">
+              <RadioGroup
+                value={selectedBarber}
+                onChange={(e) => setSelectedBarber(e.target.value)}
+              >
+                {barbers.map((barber) => (
+                  <FormControlLabel
+                    key={barber.id}
+                    value={barber.id}
+                    control={<Radio />}
+                    label={barber.name}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          </CardContent>
+        </Card>
 
-      <Card className="mb-6">
-        <CardHeader title="Select Date and Time" />
-        <CardContent>
-          <Box className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField
-              type="date"
-              label="Date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              InputLabelProps={{ shrink: true }}
+        <Card>
+          <CardHeader title="Select Date and Time" />
+          <CardContent>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2 }}>
+              <TextField
+                type="date"
+                label="Date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Box>
+            
+            <AvailableSlotsCard 
+              barberId={selectedBarber}
+              selectedDate={selectedDate}
+              onSlotSelect={(time) => setSelectedTime(time)}
             />
-          </Box>
-          
-          <AvailableSlotsCard 
-            barberId={selectedBarber}
-            selectedDate={selectedDate}
-            onSlotSelect={(time) => setSelectedTime(time)}
-          />
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      <Dialog open={showConfirmation} onClose={() => setShowConfirmation(false)}>
-        <DialogTitle>Confirm Your Appointment</DialogTitle>
-        <DialogContent>
-          <Box className="space-y-4">
-            <Typography><strong>Service:</strong> {getSelectedService()?.name}</Typography>
-            <Typography><strong>Price:</strong> ${getSelectedService()?.price}</Typography>
-            <Typography><strong>Barber:</strong> {getSelectedBarber()?.name}</Typography>
-            <Typography><strong>Date:</strong> {formatDate(selectedDate)}</Typography>
-            <Typography><strong>Time:</strong> {selectedTime}</Typography>
-            <Typography><strong>Name:</strong> {name}</Typography>
-            <Typography><strong>Phone:</strong> {phone}</Typography>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowConfirmation(false)}>Cancel</Button>
-          <Button onClick={handleConfirmBooking} variant="contained" className="bg-[#2D5043] hover:bg-[#233D34]">
-            Confirm Booking
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog open={showConfirmation} onClose={() => setShowConfirmation(false)}>
+          <DialogTitle>Confirm Your Appointment</DialogTitle>
+          <DialogContent>
+            <Stack spacing={2} sx={{ mt: 2 }}>
+              <Typography><strong>Service:</strong> {getSelectedService()?.name}</Typography>
+              <Typography><strong>Price:</strong> ${getSelectedService()?.price}</Typography>
+              <Typography><strong>Barber:</strong> {getSelectedBarber()?.name}</Typography>
+              <Typography><strong>Date:</strong> {formatDate(selectedDate)}</Typography>
+              <Typography><strong>Time:</strong> {selectedTime}</Typography>
+              <Typography><strong>Name:</strong> {name}</Typography>
+              <Typography><strong>Phone:</strong> {phone}</Typography>
+            </Stack>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setShowConfirmation(false)}>Cancel</Button>
+            <Button 
+              onClick={handleConfirmBooking} 
+              variant="contained" 
+              sx={{
+                bgcolor: '#2D5043',
+                '&:hover': {
+                  bgcolor: '#233D34'
+                }
+              }}
+            >
+              Confirm Booking
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-      <Button
-        variant="contained"
-        onClick={handleSubmit}
-        className="bg-[#2D5043] hover:bg-[#233D34]"
-        fullWidth
-      >
-        Book Appointment
-      </Button>
-    </div>
+        <Button
+          variant="contained"
+          onClick={handleSubmit}
+          sx={{
+            bgcolor: '#2D5043',
+            '&:hover': {
+              bgcolor: '#233D34'
+            }
+          }}
+          fullWidth
+        >
+          Book Appointment
+        </Button>
+      </Stack>
+    </Container>
   );
 } 

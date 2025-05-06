@@ -13,6 +13,7 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  Container,
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -22,43 +23,51 @@ import EmailIcon from '@mui/icons-material/Email';
 
 export default function AboutPage() {
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <Typography variant="h4" className="text-[#2D5043] font-bold mb-8 text-center">
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Typography 
+        variant="h4" 
+        sx={{ 
+          color: '#2D5043', 
+          fontWeight: 'bold', 
+          mb: 4, 
+          textAlign: 'center' 
+        }}
+      >
         Our Location
       </Typography>
 
       <Grid container spacing={4} justifyContent="center">
         <Grid item xs={12} sm={6} md={4}>
-          <Card className="h-[400px] w-[312px] mx-auto">
+          <Card sx={{ height: 400, width: 312, mx: 'auto' }}>
             <CardHeader 
               title="Address & Contact" 
-              className="bg-[#F5F1E6] text-center"
+              sx={{ bgcolor: '#F5F1E6', textAlign: 'center' }}
             />
-            <CardContent className="h-[calc(100%-64px)] flex items-center justify-center">
-              <List className="w-full">
-                <ListItem className="justify-center">
-                  <ListItemIcon className="min-w-0 mr-4">
-                    <LocationOnIcon className="text-[#2D5043]" />
+            <CardContent sx={{ height: 'calc(100% - 64px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <List sx={{ width: '100%' }}>
+                <ListItem sx={{ justifyContent: 'center' }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
+                    <LocationOnIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
                     primary="123 Barber Street"
                     secondary="Cityville, ST 12345"
-                    className="text-center"
+                    sx={{ textAlign: 'center' }}
                   />
                 </ListItem>
                 <Divider />
-                <ListItem className="justify-center">
-                  <ListItemIcon className="min-w-0 mr-4">
-                    <PhoneIcon className="text-[#2D5043]" />
+                <ListItem sx={{ justifyContent: 'center' }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
+                    <PhoneIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
-                  <ListItemText primary="(555) 123-4567" className="text-center" />
+                  <ListItemText primary="(555) 123-4567" sx={{ textAlign: 'center' }} />
                 </ListItem>
                 <Divider />
-                <ListItem className="justify-center">
-                  <ListItemIcon className="min-w-0 mr-4">
-                    <EmailIcon className="text-[#2D5043]" />
+                <ListItem sx={{ justifyContent: 'center' }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
+                    <EmailIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
-                  <ListItemText primary="info@mrcut.com" className="text-center" />
+                  <ListItemText primary="info@mrcut.com" sx={{ textAlign: 'center' }} />
                 </ListItem>
               </List>
             </CardContent>
@@ -66,43 +75,43 @@ export default function AboutPage() {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4}>
-          <Card className="h-[400px] w-[312px] mx-auto">
+          <Card sx={{ height: 400, width: 312, mx: 'auto' }}>
             <CardHeader 
               title="Parking Information" 
-              className="bg-[#F5F1E6] text-center"
+              sx={{ bgcolor: '#F5F1E6', textAlign: 'center' }}
             />
-            <CardContent className="h-[calc(100%-64px)] flex items-center justify-center">
-              <List className="w-full">
-                <ListItem className="justify-center">
-                  <ListItemIcon className="min-w-0 mr-4">
-                    <DirectionsCarIcon className="text-[#2D5043]" />
+            <CardContent sx={{ height: 'calc(100% - 64px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <List sx={{ width: '100%' }}>
+                <ListItem sx={{ justifyContent: 'center' }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
+                    <DirectionsCarIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
                     primary="Free Parking"
                     secondary="Available in our private lot behind the building"
-                    className="text-center"
+                    sx={{ textAlign: 'center' }}
                   />
                 </ListItem>
                 <Divider />
-                <ListItem className="justify-center">
-                  <ListItemIcon className="min-w-0 mr-4">
-                    <DirectionsCarIcon className="text-[#2D5043]" />
+                <ListItem sx={{ justifyContent: 'center' }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
+                    <DirectionsCarIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
                     primary="Street Parking"
                     secondary="2-hour limit on Main Street"
-                    className="text-center"
+                    sx={{ textAlign: 'center' }}
                   />
                 </ListItem>
                 <Divider />
-                <ListItem className="justify-center">
-                  <ListItemIcon className="min-w-0 mr-4">
-                    <DirectionsCarIcon className="text-[#2D5043]" />
+                <ListItem sx={{ justifyContent: 'center' }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
+                    <DirectionsCarIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
                     primary="Parking Garage"
                     secondary="City Center Garage - 2 blocks away"
-                    className="text-center"
+                    sx={{ textAlign: 'center' }}
                   />
                 </ListItem>
               </List>
@@ -111,43 +120,43 @@ export default function AboutPage() {
         </Grid>
 
         <Grid item xs={12} sm={6} md={4}>
-          <Card className="h-[400px] w-[312px] mx-auto">
+          <Card sx={{ height: 400, width: 312, mx: 'auto' }}>
             <CardHeader 
               title="Hours of Operation" 
-              className="bg-[#F5F1E6] text-center"
+              sx={{ bgcolor: '#F5F1E6', textAlign: 'center' }}
             />
-            <CardContent className="h-[calc(100%-64px)] flex items-center justify-center">
-              <List className="w-full">
-                <ListItem className="justify-center">
-                  <ListItemIcon className="min-w-0 mr-4">
-                    <AccessTimeIcon className="text-[#2D5043]" />
+            <CardContent sx={{ height: 'calc(100% - 64px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <List sx={{ width: '100%' }}>
+                <ListItem sx={{ justifyContent: 'center' }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
+                    <AccessTimeIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
                     primary="Monday - Friday"
                     secondary="9:00 AM - 8:00 PM"
-                    className="text-center"
+                    sx={{ textAlign: 'center' }}
                   />
                 </ListItem>
                 <Divider />
-                <ListItem className="justify-center">
-                  <ListItemIcon className="min-w-0 mr-4">
-                    <AccessTimeIcon className="text-[#2D5043]" />
+                <ListItem sx={{ justifyContent: 'center' }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
+                    <AccessTimeIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
                     primary="Saturday"
                     secondary="9:00 AM - 6:00 PM"
-                    className="text-center"
+                    sx={{ textAlign: 'center' }}
                   />
                 </ListItem>
                 <Divider />
-                <ListItem className="justify-center">
-                  <ListItemIcon className="min-w-0 mr-4">
-                    <AccessTimeIcon className="text-[#2D5043]" />
+                <ListItem sx={{ justifyContent: 'center' }}>
+                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
+                    <AccessTimeIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
                     primary="Sunday"
                     secondary="Closed"
-                    className="text-center"
+                    sx={{ textAlign: 'center' }}
                   />
                 </ListItem>
               </List>
@@ -155,6 +164,6 @@ export default function AboutPage() {
           </Card>
         </Grid>
       </Grid>
-    </div>
+    </Container>
   );
 } 

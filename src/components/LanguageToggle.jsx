@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { User } from '@/entities/User';
 import { Button } from '@mui/material';
@@ -33,4 +35,4 @@ export default function LanguageToggle({ isHebrew, setIsHebrew }) {
       {isHebrew ? 'English' : 'עברית'}
     </Button>
   );
-}
+} 

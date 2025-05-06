@@ -29,8 +29,7 @@ export default function CustomersManagement() {
   const [editingCustomer, setEditingCustomer] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
-    phone: '',
+    phone_number: '',
     notes: ''
   });
 
@@ -52,16 +51,14 @@ export default function CustomersManagement() {
       setEditingCustomer(customer);
       setFormData({
         name: customer.name,
-        email: customer.email,
-        phone: customer.phone,
+        phone_number: customer.phone_number,
         notes: customer.notes
       });
     } else {
       setEditingCustomer(null);
       setFormData({
         name: '',
-        email: '',
-        phone: '',
+        phone_number: '',
         notes: ''
       });
     }
@@ -99,11 +96,9 @@ export default function CustomersManagement() {
   };
 
   return (
-    <Box>
+    <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h4" component="h1">
-          Customer Management
-        </Typography>
+        <Typography variant="h4">Customers</Typography>
         <Button
           variant="contained"
           startIcon={<Add />}
@@ -118,8 +113,7 @@ export default function CustomersManagement() {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Phone</TableCell>
+              <TableCell>Phone Number</TableCell>
               <TableCell>Notes</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -128,8 +122,7 @@ export default function CustomersManagement() {
             {customers.map((customer) => (
               <TableRow key={customer.id}>
                 <TableCell>{customer.name}</TableCell>
-                <TableCell>{customer.email}</TableCell>
-                <TableCell>{customer.phone}</TableCell>
+                <TableCell>{customer.phone_number}</TableCell>
                 <TableCell>{customer.notes}</TableCell>
                 <TableCell>
                   <IconButton onClick={() => handleOpenDialog(customer)}>
@@ -162,18 +155,9 @@ export default function CustomersManagement() {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Phone"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                label="Phone Number"
+                value={formData.phone_number}
+                onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
               />
             </Grid>
             <Grid item xs={12}>

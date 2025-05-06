@@ -1,11 +1,11 @@
 export class Barber {
   constructor(data) {
     this.id = data.id;
-    this.name = data.name;
-    this.email = data.email;
-    this.phone = data.phone;
+    this.firstName = data.firstName;
+    this.lastName = data.lastName;
+    this.phone_number = data.phone_number;
     this.specialties = data.specialties || [];
-    this.workingHours = data.workingHours || {
+    this.working_hours = data.working_hours || {
       monday: { start: '09:00', end: '17:00' },
       tuesday: { start: '09:00', end: '17:00' },
       wednesday: { start: '09:00', end: '17:00' },
@@ -14,8 +14,38 @@ export class Barber {
       saturday: { start: '09:00', end: '17:00' },
       sunday: { start: '09:00', end: '17:00' }
     };
-    this.photoUrl = data.photoUrl;
+    this.photo_url = data.photo_url;
     this.bio = data.bio;
+  }
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
+  toJSON() {
+    return {
+      id: this.id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      phone_number: this.phone_number,
+      specialties: this.specialties,
+      working_hours: this.working_hours,
+      photo_url: this.photo_url,
+      bio: this.bio
+    };
+  }
+
+  static fromJSON(json) {
+    return new Barber({
+      id: json.id,
+      firstName: json.firstName,
+      lastName: json.lastName,
+      phone_number: json.phone_number,
+      specialties: json.specialties,
+      working_hours: json.working_hours,
+      photo_url: json.photo_url,
+      bio: json.bio
+    });
   }
 
   static async getAll() {
@@ -53,12 +83,12 @@ export class Barber {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: this.name,
-          email: this.email,
-          phone: this.phone,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          phone_number: this.phone_number,
           specialties: this.specialties,
-          workingHours: this.workingHours,
-          photoUrl: this.photoUrl,
+          working_hours: this.working_hours,
+          photo_url: this.photo_url,
           bio: this.bio,
         }),
       });

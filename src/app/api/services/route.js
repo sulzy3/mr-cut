@@ -1,53 +1,41 @@
 import { NextResponse } from 'next/server';
-
-const mockServices = [
-  {
-    id: '1',
-    name: 'Haircut',
-    description: 'Professional haircut with styling',
-    price: 30,
-    duration: 30,
-  },
-  {
-    id: '2',
-    name: 'Beard Trim',
-    description: 'Beard shaping and trimming',
-    price: 20,
-    duration: 20,
-  },
-  {
-    id: '3',
-    name: 'Haircut & Beard',
-    description: 'Complete haircut and beard service',
-    price: 45,
-    duration: 45,
-  },
-  {
-    id: '4',
-    name: 'Kids Haircut',
-    description: 'Haircut for children under 12',
-    price: 25,
-    duration: 25,
-  },
-  {
-    id: '5',
-    name: 'Senior Haircut',
-    description: 'Haircut for seniors (65+)',
-    price: 25,
-    duration: 25,
-  },
-];
+import { prisma } from '@/lib/prisma';
 
 export async function GET() {
-  return NextResponse.json(mockServices);
+  try {
+    const services = await prisma.service.findMany();
+    return NextResponse.json(services);
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return NextResponse.json({ error: 'Failed to fetch services' }, { status: 500 });
+  }
 }
 
 export async function POST(request) {
-  const body = await request.json();
-  const newService = {
-    id: String(mockServices.length + 1),
-    ...body,
-  };
-  mockServices.push(newService);
-  return NextResponse.json(newService);
+  try {
+    const { name, description, duration_minutes, price } = await request.json();
+
+    // Validate required fields
+    if (!name || !description || !duration_minutes || !price) {
+      return NextResponse.json(
+        { error: 'Name, description, duration_minutes, and price are required' },
+        { status: 400 }
+      );
+    }
+
+    // Create the service
+    const service = await prisma.service.create({
+      data: {
+        name,
+        description,
+        duration_minutes,
+        price
+      }
+    });
+
+    return NextResponse.json(service, { status: 201 });
+  } catch (error) {
+    console.error('Error creating service:', error);
+    return NextResponse.json({ error: 'Failed to create service' }, { status: 500 });
+  }
 } 

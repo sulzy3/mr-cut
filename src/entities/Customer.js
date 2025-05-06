@@ -2,8 +2,7 @@ export class Customer {
   constructor(data) {
     this.id = data.id;
     this.name = data.name;
-    this.email = data.email;
-    this.phone = data.phone;
+    this.phone_number = data.phone_number;
     this.notes = data.notes;
   }
 
@@ -43,8 +42,7 @@ export class Customer {
         },
         body: JSON.stringify({
           name: this.name,
-          email: this.email,
-          phone: this.phone,
+          phone_number: this.phone_number,
           notes: this.notes
         }),
       });

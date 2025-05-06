@@ -1,19 +1,17 @@
 export class User {
   constructor({
     id,
-    email,
+    phone_number,
     firstName,
     lastName,
-    phoneNumber,
     role = 'customer', // 'customer', 'barber', or 'admin'
     createdAt = new Date(),
     updatedAt = new Date(),
   }) {
     this.id = id;
-    this.email = email;
+    this.phone_number = phone_number;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.phoneNumber = phoneNumber;
     this.role = role;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
@@ -26,10 +24,9 @@ export class User {
   toJSON() {
     return {
       id: this.id,
-      email: this.email,
+      phone_number: this.phone_number,
       firstName: this.firstName,
       lastName: this.lastName,
-      phoneNumber: this.phoneNumber,
       role: this.role,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
@@ -39,10 +36,9 @@ export class User {
   static fromJSON(json) {
     return new User({
       id: json.id,
-      email: json.email,
+      phone_number: json.phone_number,
       firstName: json.firstName,
       lastName: json.lastName,
-      phoneNumber: json.phoneNumber,
       role: json.role,
       createdAt: new Date(json.createdAt),
       updatedAt: new Date(json.updatedAt),

@@ -24,42 +24,63 @@ const AvailableSlotsCard = ({ barberId, selectedDate, onSlotSelect }) => {
       
       setLoading(true);
       try {
-        // TODO: Replace with actual API call to get barber's working days and available slots
-        // This is a mock implementation
+        // Fetch barber's working hours
+        const barberResponse = await fetch(`/api/barbers/${barberId}`);
+        const barberData = await barberResponse.json();
+        const workingHours = barberData.working_hours;
+
+        // Get current date and time
         const today = new Date();
-        const mockWorkingDays = ['Monday', 'Wednesday', 'Friday', 'Saturday'];
-        const mockSlots = [
-          '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', 
-          '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'
-        ];
+        const currentHour = today.getHours();
+
+        // Generate available slots based on working hours
+        const generateSlots = (startTime, endTime) => {
+          const slots = [];
+          const [startHour] = startTime.split(':').map(Number);
+          const [endHour] = endTime.split(':').map(Number);
+          
+          for (let hour = startHour; hour < endHour; hour++) {
+            const timeString = `${hour.toString().padStart(2, '0')}:00`;
+            // Only add future slots for today
+            if (isToday(selectedDate) && hour <= currentHour) continue;
+            slots.push(timeString);
+          }
+          return slots;
+        };
+
+        // Get the day of week for the selected date
+        const selectedDateObj = selectedDate ? parseISO(selectedDate) : today;
+        const dayOfWeek = format(selectedDateObj, 'EEEE').toLowerCase();
+        const dayWorkingHours = workingHours[dayOfWeek];
+
+        if (dayWorkingHours) {
+          const slots = generateSlots(dayWorkingHours.start, dayWorkingHours.end);
+          
+          // Check for existing appointments
+          const appointmentsResponse = await fetch(`/api/appointments?barberId=${barberId}&date=${format(selectedDateObj, 'yyyy-MM-dd')}`);
+          const appointments = await appointmentsResponse.json();
+          
+          // Filter out booked slots
+          const bookedTimes = appointments.map(apt => apt.time);
+          const availableSlots = slots.filter(slot => !bookedTimes.includes(slot));
+          
+          setAvailableSlots(availableSlots);
+        } else {
+          setAvailableSlots([]);
+        }
 
         // Find next working day
         let nextDay = today;
         let daysChecked = 0;
-        while (!mockWorkingDays.includes(format(nextDay, 'EEEE')) && daysChecked < 14) {
+        while (!workingHours[format(nextDay, 'EEEE').toLowerCase()] && daysChecked < 14) {
           nextDay = addDays(nextDay, 1);
           daysChecked++;
         }
         setNextWorkingDay(nextDay);
 
-        // If a date is selected, show slots for that date
-        if (selectedDate) {
-          const selectedDateObj = parseISO(selectedDate);
-          const selectedDayName = format(selectedDateObj, 'EEEE');
-          
-          // Check if the selected date is within the next two weeks
-          const daysDifference = Math.ceil((selectedDateObj - today) / (1000 * 60 * 60 * 24));
-          
-          if (daysDifference >= 0 && daysDifference <= 14 && mockWorkingDays.includes(selectedDayName)) {
-            setAvailableSlots(mockSlots);
-          } else {
-            setAvailableSlots([]);
-          }
-        } else {
-          setAvailableSlots(mockSlots);
-        }
       } catch (error) {
         console.error('Error fetching available slots:', error);
+        setAvailableSlots([]);
       } finally {
         setLoading(false);
       }

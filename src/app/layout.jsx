@@ -1,5 +1,5 @@
-import MuiProvider from '@/components/MuiProvider';
-import ClientLayout from '@/components/ClientLayout';
+import MuiProvider from '@/components/MuiProvider.jsx';
+import ClientLayout from '@/components/ClientLayout.jsx';
 import './globals.css';
 
 export const metadata = {
@@ -10,6 +10,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="emotion-insertion-point" content="" />
+      </head>
       <body>
         <MuiProvider>
           <ClientLayout>
@@ -19,4 +22,4 @@ export default function RootLayout({ children }) {
       </body>
     </html>
   );
-}
+} 

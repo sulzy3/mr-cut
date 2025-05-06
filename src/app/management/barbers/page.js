@@ -54,8 +54,7 @@ export default function BarbersManagement() {
   };
 
   const getBarberDetails = (barber) => [
-    { label: 'Email', value: barber.email },
-    { label: 'Phone', value: barber.phone },
+    { label: 'Phone', value: barber.phone_number },
     { label: 'Specialties', value: barber.specialties?.join(', ') }
   ];
 

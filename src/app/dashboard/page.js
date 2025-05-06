@@ -4,134 +4,190 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { createPageUrl } from '@/utils';
-import { Button, Card, CardContent } from '@mui/material';
+import { 
+  Button, 
+  Card, 
+  CardContent, 
+  Box, 
+  Container, 
+  Typography, 
+  Grid,
+  Stack
+} from '@mui/material';
 import { Calendar, Clock, MapPin, Scissors } from 'lucide-react';
+import ClientLayout from '@/components/ClientLayout';
 
 export default function DashboardPage() {
   return (
-    <div>
-      {/* Hero Section */}
-      <div className="relative">
-        <div className="absolute inset-0">
-          <Image
-            className="w-full h-full object-cover"
-            src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80"
-            alt="Barber Shop"
-            fill
-            priority
-          />
-          <div className="absolute inset-0 bg-[#2D5043]/80" />
-        </div>
-        <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8 text-center">
-          <Image 
-            src="/mrcut.png"
-            alt="Mr. Cut"
-            width={128}
-            height={128}
-            className="h-32 mx-auto mb-6"
-          />
-          <h1 className="mt-6 text-4xl md:text-6xl font-bold tracking-tight text-white">
-            OLD SCHOOL - NEW STYLE
-          </h1>
-          <p className="mt-6 max-w-2xl mx-auto text-xl text-[#F5F1E6]">
-            Experience precision haircuts and grooming services from expert barbers who understand your style.
-          </p>
-          <div className="mt-10">
-            <Link href={createPageUrl('Book')}>
-              <Button 
-                variant="contained" 
-                size="large"
-                sx={{
-                  bgcolor: '#B87333',
-                  '&:hover': {
-                    bgcolor: '#8B5A2B',
-                  },
-                  color: 'white',
-                }}
-              >
-                Book Your Appointment
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
+    <ClientLayout currentPageName="Home">
+      <Box>
+        {/* Hero Section */}
+        <Box sx={{ position: 'relative' }}>
+          <Box sx={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+            <Image
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              src="/background.jpg"
+              alt="Barber Shop"
+              fill
+              priority
+            />
+            <Box sx={{ position: 'absolute', inset: 0, bgcolor: 'rgba(45, 80, 67, 0.8)' }} />
+          </Box>
+          <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, py: { xs: 12, sm: 16 }, px: { xs: 2, sm: 3, lg: 4 }, textAlign: 'center' }}>
+            <Image 
+              src="/mrcut.png"
+              alt="Mr. Cut"
+              width={128}
+              height={128}
+              style={{ height: '128px', margin: '0 auto 1.5rem' }}
+            />
+            <Typography
+              variant="h2"
+              sx={{
+                mt: 3,
+                fontWeight: 'bold',
+                color: 'white',
+                fontSize: { xs: '2.5rem', md: '3.75rem' }
+              }}
+            >
+              OLD SCHOOL - NEW STYLE
+            </Typography>
+            <Typography
+              variant="h5"
+              sx={{
+                mt: 3,
+                maxWidth: '42rem',
+                mx: 'auto',
+                color: '#F5F1E6'
+              }}
+            >
+              Experience precision haircuts and grooming services from expert barbers who understand your style.
+            </Typography>
+            <Box sx={{ mt: 5 }}>
+              <Link href={createPageUrl('Book')}>
+                <Button 
+                  variant="contained" 
+                  size="large"
+                  sx={{
+                    bgcolor: '#B87333',
+                    '&:hover': {
+                      bgcolor: '#8B5A2B',
+                    },
+                    color: 'white',
+                  }}
+                >
+                  Book Your Appointment
+                </Button>
+              </Link>
+            </Box>
+          </Container>
+        </Box>
 
-      {/* Features */}
-      <div className="py-16 bg-[#F5F1E6]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#2D5043]">Why Choose Us</h2>
-            <div className="w-24 h-1 bg-[#B87333] mx-auto mt-4"></div>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-            <Card sx={{ bgcolor: 'rgba(255, 255, 255, 0.8)', borderColor: '#AFBFAD' }}>
-              <CardContent>
-                <Scissors className="h-8 w-8 text-[#2D5043] mb-4" />
-                <h3 className="text-lg font-medium text-[#2D5043]">Expert Barbers</h3>
-                <p className="mt-2 text-[#8B5A2B]">
-                  Skilled professionals with years of experience
-                </p>
-              </CardContent>
-            </Card>
-            <Card sx={{ bgcolor: 'rgba(255, 255, 255, 0.8)', borderColor: '#AFBFAD' }}>
-              <CardContent>
-                <Calendar className="h-8 w-8 text-[#2D5043] mb-4" />
-                <h3 className="text-lg font-medium text-[#2D5043]">Easy Booking</h3>
-                <p className="mt-2 text-[#8B5A2B]">
-                  Book your appointment online anytime
-                </p>
-              </CardContent>
-            </Card>
-            <Card sx={{ bgcolor: 'rgba(255, 255, 255, 0.8)', borderColor: '#AFBFAD' }}>
-              <CardContent>
-                <Clock className="h-8 w-8 text-[#2D5043] mb-4" />
-                <h3 className="text-lg font-medium text-[#2D5043]">Flexible Hours</h3>
-                <p className="mt-2 text-[#8B5A2B]">
-                  Open 6 days a week for your convenience
-                </p>
-              </CardContent>
-            </Card>
-            <Card sx={{ bgcolor: 'rgba(255, 255, 255, 0.8)', borderColor: '#AFBFAD' }}>
-              <CardContent>
-                <MapPin className="h-8 w-8 text-[#2D5043] mb-4" />
-                <h3 className="text-lg font-medium text-[#2D5043]">Prime Location</h3>
-                <p className="mt-2 text-[#8B5A2B]">
-                  Easily accessible in the heart of the city
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
+        {/* Features */}
+        <Box sx={{ py: 8, bgcolor: '#F5F1E6' }}>
+          <Container maxWidth="xl">
+            <Box sx={{ textAlign: 'center', mb: 6 }}>
+              <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#2D5043' }}>
+                Why Choose Us
+              </Typography>
+              <Box sx={{ width: '96px', height: '4px', bgcolor: '#B87333', mx: 'auto', mt: 2 }} />
+            </Box>
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={6} lg={3}>
+                <Card sx={{ bgcolor: 'rgba(255, 255, 255, 0.8)', borderColor: '#AFBFAD' }}>
+                  <CardContent>
+                    <Scissors style={{ height: '32px', width: '32px', color: '#2D5043', marginBottom: '1rem' }} />
+                    <Typography variant="h6" sx={{ fontWeight: 500, color: '#2D5043' }}>
+                      Expert Barbers
+                    </Typography>
+                    <Typography sx={{ mt: 1, color: '#8B5A2B' }}>
+                      Skilled professionals with years of experience
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <Card sx={{ bgcolor: 'rgba(255, 255, 255, 0.8)', borderColor: '#AFBFAD' }}>
+                  <CardContent>
+                    <Calendar style={{ height: '32px', width: '32px', color: '#2D5043', marginBottom: '1rem' }} />
+                    <Typography variant="h6" sx={{ fontWeight: 500, color: '#2D5043' }}>
+                      Easy Booking
+                    </Typography>
+                    <Typography sx={{ mt: 1, color: '#8B5A2B' }}>
+                      Book your appointment online anytime
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <Card sx={{ bgcolor: 'rgba(255, 255, 255, 0.8)', borderColor: '#AFBFAD' }}>
+                  <CardContent>
+                    <Clock style={{ height: '32px', width: '32px', color: '#2D5043', marginBottom: '1rem' }} />
+                    <Typography variant="h6" sx={{ fontWeight: 500, color: '#2D5043' }}>
+                      Flexible Hours
+                    </Typography>
+                    <Typography sx={{ mt: 1, color: '#8B5A2B' }}>
+                      Open 6 days a week for your convenience
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <Card sx={{ bgcolor: 'rgba(255, 255, 255, 0.8)', borderColor: '#AFBFAD' }}>
+                  <CardContent>
+                    <MapPin style={{ height: '32px', width: '32px', color: '#2D5043', marginBottom: '1rem' }} />
+                    <Typography variant="h6" sx={{ fontWeight: 500, color: '#2D5043' }}>
+                      Prime Location
+                    </Typography>
+                    <Typography sx={{ mt: 1, color: '#8B5A2B' }}>
+                      Easily accessible in the heart of the city
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Container>
+        </Box>
 
-      {/* CTA Section */}
-      <div className="bg-[#2D5043]">
-        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            <span className="block">Ready for a fresh look?</span>
-            <span className="block text-[#AFBFAD] text-xl mt-2">
-              Book your appointment today and experience the difference.
-            </span>
-          </h2>
-          <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-            <Link href={createPageUrl('Book')}>
-              <Button 
-                variant="contained" 
-                size="large"
-                sx={{
-                  bgcolor: '#B87333',
-                  '&:hover': {
-                    bgcolor: '#8B5A2B',
-                  },
-                  color: 'white',
-                }}
-              >
-                Book Now
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
+        {/* CTA Section */}
+        <Box sx={{ bgcolor: '#2D5043' }}>
+          <Container maxWidth="xl">
+            <Stack
+              direction={{ xs: 'column', lg: 'row' }}
+              spacing={4}
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{ py: { xs: 6, lg: 8 }, px: { xs: 2, sm: 3, lg: 4 } }}
+            >
+              <Box>
+                <Typography variant="h3" sx={{ fontWeight: 'bold', color: 'white' }}>
+                  Ready for a fresh look?
+                </Typography>
+                <Typography variant="h6" sx={{ color: '#AFBFAD', mt: 1 }}>
+                  Book your appointment today and experience the difference.
+                </Typography>
+              </Box>
+              <Box>
+                <Link href={createPageUrl('Book')}>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    sx={{
+                      bgcolor: '#B87333',
+                      '&:hover': {
+                        bgcolor: '#8B5A2B',
+                      },
+                      color: 'white',
+                    }}
+                  >
+                    Book Now
+                  </Button>
+                </Link>
+              </Box>
+            </Stack>
+          </Container>
+        </Box>
+      </Box>
+    </ClientLayout>
   );
 }

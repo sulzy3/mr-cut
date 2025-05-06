@@ -2,29 +2,66 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { Box, Typography, Button, Container } from '@mui/material';
 
 export default function NotFound() {
   return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center p-4">
-      <div className="text-center">
+    <Container>
+      <Box
+        sx={{
+          minHeight: '60vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          p: 2,
+          textAlign: 'center'
+        }}
+      >
         <Image
           src="/mrcut.png"
           alt="Mr. Cut Logo"
           width={96}
           height={96}
-          className="mx-auto mb-8"
+          style={{ margin: '0 auto 2rem' }}
         />
-        <h1 className="text-4xl font-bold text-[#2D5043] mb-4">404 - Page Not Found</h1>
-        <p className="text-lg text-gray-600 mb-8">
+        <Typography
+          variant="h3"
+          component="h1"
+          sx={{
+            color: '#2D5043',
+            fontWeight: 'bold',
+            mb: 2
+          }}
+        >
+          404 - Page Not Found
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            color: 'text.secondary',
+            mb: 4
+          }}
+        >
           Oops! The page you&apos;re looking for doesn&apos;t exist.
-        </p>
-        <Link 
+        </Typography>
+        <Button
+          component={Link}
           href="/"
-          className="inline-block bg-[#2D5043] text-white px-6 py-3 rounded-md hover:bg-[#233D34] transition-colors"
+          variant="contained"
+          sx={{
+            bgcolor: '#2D5043',
+            color: 'white',
+            px: 3,
+            py: 1.5,
+            '&:hover': {
+              bgcolor: '#233D34'
+            }
+          }}
         >
           Return Home
-        </Link>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Container>
   );
 } 
