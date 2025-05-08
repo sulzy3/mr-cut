@@ -10,24 +10,23 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - POSTGRES_HOST=db
+      - POSTGRES_HOST=ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech
       - POSTGRES_PORT=5432
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=mrcut
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mrcut
+      - POSTGRES_USER=default
+      - POSTGRES_PASSWORD=npg_8eruKvscO9dB
+      - POSTGRES_DB=neondb
+      - DATABASE_URL=postgres://default:npg_8eruKvscO9dB@ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech/neondb?sslmode=require
+      - DIRECT_URL=postgres://default:npg_8eruKvscO9dB@ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech/neondb?sslmode=require
       - WATCHPACK_POLLING=true
       - CHOKIDAR_USEPOLLING=true
-    depends_on:
-      db:
-        condition: service_healthy
-      migrations:
-        condition: service_completed_successfully
     volumes:
       - .:/app
       - /app/node_modules
       - /app/.next
     restart: unless-stopped
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
     command: npm run dev
 
   migrations:
@@ -35,34 +34,9 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mrcut
-    depends_on:
-      db:
-        condition: service_healthy
+      - DATABASE_URL=postgres://default:npg_8eruKvscO9dB@ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech/neondb?sslmode=require
+      - DIRECT_URL=postgres://default:npg_8eruKvscO9dB@ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech/neondb?sslmode=require
     command: npx prisma migrate deploy
-
-  db:
-    build:
-      context: ./db
-      dockerfile: dockerfile
-    container_name: mrcut-db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=mrcut
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mrcut
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
 volumes:
   postgres_data: 

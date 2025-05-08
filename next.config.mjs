@@ -23,12 +23,13 @@ const nextConfig = {
     ],
   },
   env: {
-    POSTGRES_HOST: process.env.POSTGRES_HOST || 'localhost',
+    POSTGRES_HOST: process.env.POSTGRES_HOST || 'ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech',
     POSTGRES_PORT: process.env.POSTGRES_PORT || '5432',
-    POSTGRES_USER: process.env.POSTGRES_USER || 'postgres',
-    POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD || 'postgres',
-    POSTGRES_DB: process.env.POSTGRES_DB || 'mrcut',
-    DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/mrcut',
+    POSTGRES_USER: process.env.POSTGRES_USER || 'default',
+    POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD || 'npg_8eruKvscO9dB',
+    POSTGRES_DB: process.env.POSTGRES_DB || 'neondb',
+    DATABASE_URL: process.env.DATABASE_URL || 'postgresql://default:npg_8eruKvscO9dB@ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech:5432/neondb?sslmode=require',
+    DIRECT_URL: process.env.DIRECT_URL || 'postgresql://default:npg_8eruKvscO9dB@ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech:5432/neondb?sslmode=require',
   },
   webpack: (config) => {
     config.resolve.alias = {

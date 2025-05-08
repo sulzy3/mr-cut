@@ -1,9 +1,9 @@
 FROM postgres:16-alpine
 
 # Set environment variables
-ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=postgres
-ENV POSTGRES_DB=mrcut
+ENV POSTGRES_USER=default
+ENV POSTGRES_PASSWORD=npg_8eruKvscO9dB
+ENV POSTGRES_DB=neondb
 
 # Expose PostgreSQL port
 EXPOSE 5432
