@@ -2,16 +2,19 @@ export class Appointment {
   constructor(data) {
     this.id = data.id;
     this.customerName = data.customerName;
-    // Handle both combined dateTime and separate date/time fields
-    if (data.dateTime) {
-      this.dateTime = data.dateTime;
-    } else if (data.date && data.time) {
-      this.dateTime = `${data.date}T${data.time}`;
-    } else {
-      this.dateTime = new Date().toISOString(); // Fallback to current time
-    }
-    this.serviceName = data.serviceName;
-    this.barberName = data.barberName;
+    this.customerPhone = data.customerPhone;
+    // // Handle both combined dateTime and separate date/time fields
+    // if (data.dateTime) {
+    //   this.dateTime = data.dateTime;
+    // } else if (data.date && data.time) {
+    //   this.dateTime = `${data.date}T${data.time}`;
+    // } else {
+    //   this.dateTime = new Date().toISOString(); // Fallback to current time
+    // }
+    this.date = data.date;
+    this.time = data.time;
+    this.serviceId = data.serviceId;
+    this.barberId = data.barberId;
     this.status = data.status;
   }
 
@@ -43,6 +46,8 @@ export class Appointment {
     try {
       const method = this.id ? 'PUT' : 'POST';
       const url = this.id ? `/api/appointments/${this.id}` : '/api/appointments';
+
+      const now  = new Date().toISOString();
       
       const response = await fetch(url, {
         method,
@@ -50,11 +55,15 @@ export class Appointment {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          customerName: this.customerName,
-          dateTime: this.dateTime,
-          serviceName: this.serviceName,
-          barberName: this.barberName,
-          status: this.status
+          // customer_name: this.customerName,
+          id: `${this.customerPhone}-${this.barberId}`,
+          date: this.date,
+          time: this.time,
+          service_id: this.serviceId,
+          barber_id: this.barberId,
+          status: 'pending',
+          created_at: now,
+          updated_at: now,
         }),
       });
 

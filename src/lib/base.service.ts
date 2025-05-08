@@ -8,24 +8,24 @@ export class BaseService {
   }
 
   async findAll() {
-    return query(`SELECT * FROM ${this.tableName}`);
+    return query(`SELECT * FROM "${this.tableName}"`);
   }
 
   async findById(id: number) {
-    return query(`SELECT * FROM ${this.tableName} WHERE id = $1`, [id]);
+    return query(`SELECT * FROM "${this.tableName}" WHERE id = $1`, [id]);
   }
 
   async findByProperty(property: string, value: any) {
-    return query(`SELECT * FROM ${this.tableName} WHERE ${property} = $1`, [value]);
+    return query(`SELECT * FROM "${this.tableName}" WHERE ${property} = $1`, [value]);
   }
 
   async create(data: Record<string, any>) {
     const columns = Object.keys(data).join(', ');
     const values = Object.values(data);
     const placeholders = values.map((_, i) => `$${i + 1}`).join(', ');
-    
+
     return query(
-      `INSERT INTO ${this.tableName} (${columns}) VALUES (${placeholders}) RETURNING *`,
+      `INSERT INTO "${this.tableName}" (${columns}) VALUES (${placeholders}) RETURNING *`,
       values
     );
   }
@@ -36,12 +36,12 @@ export class BaseService {
       .join(', ');
     
     return query(
-      `UPDATE ${this.tableName} SET ${setClause} WHERE id = $1 RETURNING *`,
+      `UPDATE "${this.tableName}" SET ${setClause} WHERE id = $1 RETURNING *`,
       [id, ...Object.values(data)]
     );
   }
 
   async delete(id: number) {
-    return query(`DELETE FROM ${this.tableName} WHERE id = $1`, [id]);
+    return query(`DELETE FROM "${this.tableName}" WHERE id = $1`, [id]);
   }
 } 

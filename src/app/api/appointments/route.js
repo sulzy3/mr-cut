@@ -53,10 +53,10 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     const data = await request.json();
-    
+
     // Check if the appointment slot is available
     const isAvailable = await appointmentService.checkAvailability(
-      data.barber_id,
+      data.barberId,
       data.date,
       data.time
     );
@@ -69,8 +69,9 @@ export async function POST(request) {
     }
 
     const result = await appointmentService.create(data);
+    console.log(result);
     return NextResponse.json(result.rows[0], { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to create appointment' }, { status: 500 });
+    return NextResponse.json({ error: 'AAAAAAAAAAA' }, { status: 500 });
   }
 } 
