@@ -27,8 +27,8 @@ const nextConfig = {
     POSTGRES_PORT: process.env.POSTGRES_PORT || '5432',
     POSTGRES_USER: process.env.POSTGRES_USER || 'postgres',
     POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD || 'postgres',
-    POSTGRES_DB: process.env.POSTGRES_DB || 'mrccut',
-    DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/mrccut',
+    POSTGRES_DB: process.env.POSTGRES_DB || 'mrcut',
+    DATABASE_URL: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/mrcut',
   },
   webpack: (config) => {
     config.resolve.alias = {

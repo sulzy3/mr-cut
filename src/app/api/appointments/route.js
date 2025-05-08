@@ -1,14 +1,52 @@
 import { NextResponse } from 'next/server';
 import { AppointmentService } from '@/services/appointment.service';
+import { prisma } from '@/lib/prisma';
 
 const appointmentService = new AppointmentService();
 
-export async function GET() {
+export async function GET(request) {
   try {
-    const result = await appointmentService.findAll();
-    return NextResponse.json(result.rows);
+    const { searchParams } = new URL(request.url);
+    const barberId = searchParams.get('barberId');
+    const date = searchParams.get('date');
+
+    if (!barberId || !date) {
+      return NextResponse.json(
+        { error: 'Barber ID and date are required' },
+        { status: 400 }
+      );
+    }
+
+    const appointments = await prisma.appointment.findMany({
+      where: {
+        barber_id: barberId,
+        date: {
+          gte: new Date(date),
+          lt: new Date(new Date(date).setDate(new Date(date).getDate() + 1))
+        }
+      },
+      include: {
+        service: true,
+        barber: {
+          include: {
+            user: {
+              select: {
+                firstName: true,
+                lastName: true
+              }
+            }
+          }
+        }
+      }
+    });
+
+    return NextResponse.json(appointments);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch appointments' }, { status: 500 });
+    console.error('Error fetching appointments:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch appointments' },
+      { status: 500 }
+    );
   }
 }
 

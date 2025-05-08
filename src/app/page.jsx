@@ -65,19 +65,44 @@ export default function Home() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          backgroundColor: '#f5f5f5',
+          padding: 4,
+          borderRadius: 2,
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         }}
       >
         <Image
           src="/mrcut.png"
           alt="Mr. Cut"
-          width={120}
-          height={120}
+          width={150}
+          height={150}
           priority
+          style={{ borderRadius: '50%' }}
         />
-        <Typography component="h1" variant="h5" sx={{ mt: 2 }}>
-          Sign in to Mr. Cut
+        <Typography 
+          component="h1" 
+          variant="h4" 
+          sx={{ 
+            mt: 3,
+            fontWeight: 'bold',
+            color: '#2D5043',
+            textAlign: 'center'
+          }}
+        >
+          Welcome to Mr. Cut
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <Typography 
+          variant="subtitle1" 
+          sx={{ 
+            mt: 1,
+            mb: 3,
+            color: '#666',
+            textAlign: 'center'
+          }}
+        >
+          Your trusted barber service
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
           {error && (
             <Alert severity="error" sx={{ mb: 2 }}>
               {error}
@@ -94,6 +119,13 @@ export default function Home() {
             autoFocus
             value={phone_number}
             onChange={(e) => setPhoneNumber(e.target.value)}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '&:hover fieldset': {
+                  borderColor: '#2D5043',
+                },
+              },
+            }}
           />
           <Button
             type="submit"
@@ -103,6 +135,8 @@ export default function Home() {
               mt: 3,
               mb: 2,
               bgcolor: '#2D5043',
+              py: 1.5,
+              fontSize: '1.1rem',
               '&:hover': {
                 bgcolor: '#1A3028',
               },

@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mrccut-app
+    container_name: mrcut-app
     ports:
       - "3000:3000"
     environment:
@@ -14,12 +14,15 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=mrccut
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mrccut
+      - POSTGRES_DB=mrcut
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mrcut
       - WATCHPACK_POLLING=true
       - CHOKIDAR_USEPOLLING=true
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
     volumes:
       - .:/app
       - /app/node_modules
@@ -27,11 +30,22 @@ services:
     restart: unless-stopped
     command: npm run dev
 
+  migrations:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mrcut
+    depends_on:
+      db:
+        condition: service_healthy
+    command: npx prisma migrate deploy
+
   db:
     build:
       context: ./db
       dockerfile: dockerfile
-    container_name: mrccut-db
+    container_name: mrcut-db
     ports:
       - "5432:5432"
     volumes:
@@ -39,11 +53,16 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=mrccut
+      - POSTGRES_DB=mrcut
       - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mrccut
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mrcut
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data: 
