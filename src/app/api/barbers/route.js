@@ -43,8 +43,8 @@ export async function POST(request) {
       phone_number, 
       first_name, 
       last_name,
-      specialties = [],
-      working_hours = {},
+      specialties,
+      working_hours,
       photo_url,
       bio
     } = await request.json();
@@ -55,6 +55,11 @@ export async function POST(request) {
         { status: 400 }
       );
     }
+
+    // Convert specialties string to array if it's a string
+    const specialtiesArray = typeof specialties === 'string' 
+      ? specialties.split(',').map(s => s.trim())
+      : specialties || [];
 
     // Create a new barber user and profile in a transaction
     const result = await prisma.$transaction(async (prisma) => {
@@ -75,8 +80,8 @@ export async function POST(request) {
           firstName: first_name,
           lastName: last_name,
           phone_number,
-          specialties,
-          working_hours,
+          specialties: specialtiesArray,
+          working_hours: working_hours || {},
           photo_url,
           bio
         }

@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { Appointment } from '@/entities/Appointment';
 import { format } from 'date-fns';
+import Cookies from 'js-cookie';
 
 export default function ManagementDashboard() {
   const [upcomingAppointments, setUpcomingAppointments] = useState([]);
@@ -35,7 +36,26 @@ export default function ManagementDashboard() {
 
   const loadAppointments = async () => {
     try {
-      const appointments = await Appointment.getAll();
+      // Get user data from cookie
+      const userData = JSON.parse(Cookies.get('userData') || '{}');
+      
+      if (!userData.id || userData.role !== 'BARBER') {
+        throw new Error('Barber data not found');
+      }
+
+      // Get today's date in YYYY-MM-DD format
+      const today = new Date().toISOString().split('T')[0];
+      
+      // Fetch appointments with barber ID (which is the same as user ID in our schema)
+      const response = await fetch(`/api/appointments?date=${today}&barberId=${userData.id}`);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to load appointments');
+      }
+
+      const appointments = await response.json();
+      
       // Filter and sort upcoming appointments
       const upcoming = appointments
         .filter(app => new Date(app.dateTime) > new Date())
@@ -43,7 +63,8 @@ export default function ManagementDashboard() {
         .slice(0, 5); // Show only next 5 appointments
       setUpcomingAppointments(upcoming);
     } catch (error) {
-      setError('Failed to load appointments');
+      console.error('Error loading appointments:', error);
+      setError(error.message || 'Failed to load appointments');
     }
   };
 

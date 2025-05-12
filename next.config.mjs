@@ -23,13 +23,8 @@ const nextConfig = {
     ],
   },
   env: {
-    POSTGRES_HOST: process.env.POSTGRES_HOST || 'ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech',
-    POSTGRES_PORT: process.env.POSTGRES_PORT || '5432',
-    POSTGRES_USER: process.env.POSTGRES_USER || 'default',
-    POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD || 'npg_8eruKvscO9dB',
-    POSTGRES_DB: process.env.POSTGRES_DB || 'neondb',
-    DATABASE_URL: process.env.DATABASE_URL || 'postgresql://default:npg_8eruKvscO9dB@ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech:5432/neondb?sslmode=require',
-    DIRECT_URL: process.env.DIRECT_URL || 'postgresql://default:npg_8eruKvscO9dB@ep-cool-forest-a5q1g1g1.us-east-2.aws.neon.tech:5432/neondb?sslmode=require',
+    DATABASE_URL: process.env.DATABASE_URL || 'postgres://neondb_owner:npg_8eruKvscO9dB@ep-twilight-art-a2s6af2z-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require',
+    DIRECT_URL: process.env.DIRECT_URL || 'postgresql://neondb_owner:npg_8eruKvscO9dB@ep-twilight-art-a2s6af2z.eu-central-1.aws.neon.tech/neondb?sslmode=require',
   },
   webpack: (config) => {
     config.resolve.alias = {

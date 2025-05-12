@@ -18,9 +18,13 @@ export class Appointment {
     this.status = data.status;
   }
 
-  static async getAll() {
+  static async getAll({ barberId, date } = {}) {
     try {
-      const response = await fetch('/api/appointments');
+      const url = new URL('/api/appointments', window.location.origin);
+      if (barberId) url.searchParams.append('barberId', barberId);
+      if (date) url.searchParams.append('date', date);
+      
+      const response = await fetch(url);
       if (!response.ok) throw new Error('Failed to fetch appointments');
       const data = await response.json();
       return data.map(appointment => new Appointment(appointment));

@@ -49,7 +49,11 @@ export default function Home() {
       }
 
       Cookies.set('userData', JSON.stringify(data.user));
-      router.push('/dashboard');
+      if (data.user.role === 'BARBER') {
+        router.push('/management');
+      } else {
+        router.push('/dashboard');
+      }
     } catch (err) {
       setError(err.message);
     } finally {
