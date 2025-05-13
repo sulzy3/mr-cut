@@ -97,7 +97,7 @@ export default function ClientLayout({ children, currentPageName }) {
   const t = isHebrew ? translations.hebrew : translations.english;
 
   const isBarber =
-    currentUser?.userType === "barber" || currentUser?.userType === "admin";
+    currentUser?.role.toUpperCase() === "BARBER" || currentUser?.userType.toUpperCase() === "ADMIN";
 
   let navigation = [
     { name: t.home, href: "/dashboard" },

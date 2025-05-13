@@ -59,8 +59,9 @@ export default function BookPage() {
 
                 // Get user data from cookies
                 const userData = Cookies.get("userData");
+
                 if (userData) {
-                    const {name, phoneNumber} = JSON.parse(userData);
+                    const {name, phone_number: phoneNumber} = JSON.parse(decodeURI(userData));
                     setName(name);
                     setPhone(phoneNumber);
                 }
@@ -96,8 +97,6 @@ export default function BookPage() {
                                                     customerName: name,
                                                     customerPhone: phone,
                                                 });
-
-            // console.log(appointment)
 
             await appointment.save();
             setShowConfirmation(false);
