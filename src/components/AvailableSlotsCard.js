@@ -37,8 +37,6 @@ const AvailableSlotsCard = ({barberId, selectedDate, onSlotSelect, serviceDurati
                 const appointments = await appointmentsResponse.json();
                 setExistingAppointments(appointments);
 
-                console.log(appointments)
-
                 // Get current date and time
                 const today = new Date();
                 const currentHour = today.getHours();
@@ -50,7 +48,7 @@ const AvailableSlotsCard = ({barberId, selectedDate, onSlotSelect, serviceDurati
                     const [endHour] = endTime.split(':').map(Number);
 
                     for (let hour = startHour; hour < endHour; hour += interval) {
-                        const timeString = `${hour.toString().padStart(2, '0')}:00`;
+                        const timeString = `${Math.floor(hour).toString().padStart(2, '0')}:${hour%1 > 0 ? hour%1 * 60 : '00'}`;
                         // Only add future slots for today
                         if (isToday(selectedDate) && hour <= currentHour) continue;
                         slots.push(timeString);
@@ -67,11 +65,9 @@ const AvailableSlotsCard = ({barberId, selectedDate, onSlotSelect, serviceDurati
                     const slots = generateSlots(dayWorkingHours.start, dayWorkingHours.end, serviceDuration);
 
                     // Filter out booked slots
-                    const bookedTimes = appointments.map(apt => {
-                        // Convert appointment time to the same format as our slots
-                        const appointmentTime = new Date(apt.date);
-                        return format(appointmentTime, 'HH:00');
-                    });
+                    const bookedTimes = appointments.filter(apt => (
+                        apt.barber_id === barberId
+                    )).map((apt=>(apt.time)));
 
                     // Filter out any slots that are already booked
                     const availableSlots = slots.filter(slot => !bookedTimes.includes(slot));
