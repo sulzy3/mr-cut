@@ -139,8 +139,14 @@ export default function ClientLayout({ children, currentPageName }) {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#F5F1E6', direction: isHebrew ? 'rtl' : 'ltr' }}>
-      <AppBar position="static" sx={{ bgcolor: '#2D5043', zIndex: 1200 }}>
+    <Box sx={{ 
+      minHeight: '100vh', 
+      bgcolor: '#F5F1E6', 
+      direction: isHebrew ? 'rtl' : 'ltr',
+      display: 'flex',
+      flexDirection: 'column'
+    }}>
+      <AppBar position="fixed" sx={{ bgcolor: '#2D5043', zIndex: 1200 }}>
         <Toolbar>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
             <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
@@ -207,56 +213,18 @@ export default function ClientLayout({ children, currentPageName }) {
         </Toolbar>
       </AppBar>
 
-      <Drawer
-        anchor="right"
-        open={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-        sx={{
-          '& .MuiDrawer-paper': {
-            bgcolor: '#2D5043',
-            width: 240,
-          },
+      <Box 
+        component="main" 
+        sx={{ 
+          flexGrow: 1,
+          mt: '64px', // Add margin top to account for fixed AppBar
+          minHeight: 'calc(100vh - 64px)', // Subtract AppBar height
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
-        <List>
-          {navigation.map((item) => (
-            <ListItem
-              key={item.name}
-              component={Link}
-              href={item.href}
-              onClick={() => setMobileMenuOpen(false)}
-              sx={{
-                color: currentPageName === item.name ? '#B87333' : 'white',
-                '&:hover': {
-                  bgcolor: '#233D34',
-                  color: '#AFBFAD',
-                },
-              }}
-            >
-              <ListItemText primary={item.name} />
-            </ListItem>
-          ))}
-          <ListItem
-            button
-            onClick={() => {
-              handleLogout();
-              setMobileMenuOpen(false);
-            }}
-            sx={{
-              color: 'white',
-              '&:hover': {
-                bgcolor: '#233D34',
-                color: '#AFBFAD',
-              },
-            }}
-          >
-            <LogOut style={{ height: '20px', width: '20px', marginRight: '8px' }} />
-            <ListItemText primary={t.logout} />
-          </ListItem>
-        </List>
-      </Drawer>
-
-      <Box component="main">{children}</Box>
+        {children}
+      </Box>
 
       <Box
         component="footer"
@@ -264,6 +232,7 @@ export default function ClientLayout({ children, currentPageName }) {
           bgcolor: '#2D5043',
           color: 'white',
           py: 6,
+          mt: 'auto' // Push footer to bottom
         }}
       >
         <Container maxWidth="lg">
@@ -328,6 +297,55 @@ export default function ClientLayout({ children, currentPageName }) {
           </Box>
         </Container>
       </Box>
+
+      <Drawer
+        anchor="right"
+        open={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        sx={{
+          '& .MuiDrawer-paper': {
+            bgcolor: '#2D5043',
+            width: 240,
+          },
+        }}
+      >
+        <List>
+          {navigation.map((item) => (
+            <ListItem
+              key={item.name}
+              component={Link}
+              href={item.href}
+              onClick={() => setMobileMenuOpen(false)}
+              sx={{
+                color: currentPageName === item.name ? '#B87333' : 'white',
+                '&:hover': {
+                  bgcolor: '#233D34',
+                  color: '#AFBFAD',
+                },
+              }}
+            >
+              <ListItemText primary={item.name} />
+            </ListItem>
+          ))}
+          <ListItem
+            button
+            onClick={() => {
+              handleLogout();
+              setMobileMenuOpen(false);
+            }}
+            sx={{
+              color: 'white',
+              '&:hover': {
+                bgcolor: '#233D34',
+                color: '#AFBFAD',
+              },
+            }}
+          >
+            <LogOut style={{ height: '20px', width: '20px', marginRight: '8px' }} />
+            <ListItemText primary={t.logout} />
+          </ListItem>
+        </List>
+      </Drawer>
     </Box>
   );
 } 

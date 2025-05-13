@@ -13,30 +13,33 @@ export async function POST(request) {
       );
     }
 
-    // Find or create user by phone number
-    const user = await prisma.user.upsert({
+    // Check if user exists (as either barber or any other role)
+    const existingUser = await prisma.user.findUnique({
       where: { phone_number },
-      update: {}, // No updates needed if user exists
-      create: {
-        phone_number,
-        role: 'CUSTOMER', // Default role for new users
-      },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        phone_number: true,
-        role: true,
-      },
     });
+ 
+    let user;
+    
+    if (existingUser) {
+      // User exists, return as is
+      user = existingUser;
+    } else {
+      // User doesn't exist, create new user as borrower
+      user = await prisma.user.create({
+        data: {
+          phone_number,
+          role: 'CUSTOMER', // Always create new users as customer
+        },
+      });
+    }
 
     // Map role to userType for client-side compatibility
-    const userType = user.role === 'barber' ? 'barber' : 
-                    user.role === 'admin' ? 'admin' : 'customer';
+    const userType = user.role === 'BARBER' ? 'barber' : 
+                    user.role === 'ADMIN' ? 'admin' : 'customer';
 
     // Return user data with userType
     return NextResponse.json({
-      message: user.firstName ? 'Login successful' : 'New user created',
+      message: existingUser ? 'Login successful' : 'New user created as customer',
       user: {
         ...user,
         userType
@@ -49,4 +52,4 @@ export async function POST(request) {
       { status: 500 }
     );
   }
-} 
+}
