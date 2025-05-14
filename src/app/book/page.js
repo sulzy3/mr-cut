@@ -29,8 +29,12 @@ import {
 } from "@mui/material";
 import AvailableSlotsCard from "@/components/AvailableSlotsCard";
 import Cookies from "js-cookie";
+import { getTranslations } from "@/translations";
 
 export default function BookPage() {
+    const isHebrew = Cookies.get("langPref") === "hebrew";
+    const t = getTranslations(isHebrew);
+
     const [services, setServices] = useState([]);
     const [barbers, setBarbers] = useState([]);
     const [selectedServiceId, setSelectedServiceId] = useState("");
@@ -51,9 +55,9 @@ export default function BookPage() {
             setError(null);
             try {
                 const [servicesData, barbersData] = await Promise.all([
-                                                                          Service.getAll(),
-                                                                          Barber.getAll()
-                                                                      ]);
+                    Service.getAll(),
+                    Barber.getAll()
+                ]);
                 setServices(servicesData);
                 setBarbers(barbersData);
 
@@ -66,19 +70,19 @@ export default function BookPage() {
                 }
             } catch (error) {
                 console.error("Error loading data:", error);
-                setError("Failed to load services and barbers. Please try again later.");
+                setError(t.failedToLoad);
                 setSnackbar({
-                                open: true,
-                                message: "Failed to load data. Please refresh the page.",
-                                severity: "error"
-                            });
+                    open: true,
+                    message: t.failedToLoadData,
+                    severity: "error"
+                });
             } finally {
                 setIsLoading(false);
             }
         };
 
         loadData();
-    }, []);
+    }, [t.failedToLoad, t.failedToLoadData]);
 
     const handleSubmit = async () => {
         setShowConfirmation(true);
@@ -89,30 +93,28 @@ export default function BookPage() {
             setIsLoading(true);
 
             const appointment = new Appointment({
-                                                    serviceId: selectedServiceId,
-                                                    barberId: selectedBarber,
-                                                    date: selectedDate,
-                                                    time: selectedTime,
-                                                    customerName: name,
-                                                    customerPhone: phone,
-                                                });
-
-            // console.log(appointment)
+                serviceId: selectedServiceId,
+                barberId: selectedBarber,
+                date: selectedDate,
+                time: selectedTime,
+                customerName: name,
+                customerPhone: phone,
+            });
 
             await appointment.save();
             setShowConfirmation(false);
             setSnackbar({
-                            open: true,
-                            message: "Appointment booked successfully!",
-                            severity: "success"
-                        });
+                open: true,
+                message: t.appointmentBookedSuccess,
+                severity: "success"
+            });
         } catch (error) {
             console.error("Error creating appointment:", error);
             setSnackbar({
-                            open: true,
-                            message: "Failed to book appointment. Please try again.",
-                            severity: "error"
-                        });
+                open: true,
+                message: t.failedToBook,
+                severity: "error"
+            });
         } finally {
             setIsLoading(false);
         }
@@ -158,7 +160,7 @@ export default function BookPage() {
                 variant="h4"
                 sx={{color: "#2D5043", fontWeight: "bold", mb: 4}}
             >
-                Book an Appointment
+                {t.bookAnAppointment}
             </Typography>
 
             {error && (
@@ -174,11 +176,11 @@ export default function BookPage() {
             ) : (
                 <Stack spacing={3}>
                     <Card>
-                        <CardHeader title="Your Information"/>
+                        <CardHeader title={t.yourInformation}/>
                         <CardContent>
                             <TextField
                                 fullWidth
-                                label="Your Name"
+                                label={t.yourName}
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
@@ -188,7 +190,7 @@ export default function BookPage() {
                     </Card>
 
                     <Card>
-                        <CardHeader title="Select Service"/>
+                        <CardHeader title={t.selectService}/>
                         <CardContent>
                             <FormControl component="fieldset">
                                 <RadioGroup
@@ -209,7 +211,7 @@ export default function BookPage() {
                     </Card>
 
                     <Card>
-                        <CardHeader title="Select Barber"/>
+                        <CardHeader title={t.selectBarber}/>
                         <CardContent>
                             <FormControl component="fieldset">
                                 <RadioGroup
@@ -230,7 +232,7 @@ export default function BookPage() {
                     </Card>
 
                     <Card>
-                        <CardHeader title="Select Date and Time"/>
+                        <CardHeader title={t.selectDateAndTime}/>
                         <CardContent>
                             <Box
                                 sx={{
@@ -241,7 +243,7 @@ export default function BookPage() {
                             >
                                 <TextField
                                     type="date"
-                                    label="Date"
+                                    label={t.date}
                                     value={selectedDate}
                                     onChange={(e) => setSelectedDate(e.target.value)}
                                     InputLabelProps={{shrink: true}}
@@ -261,35 +263,35 @@ export default function BookPage() {
                         open={showConfirmation}
                         onClose={() => setShowConfirmation(false)}
                     >
-                        <DialogTitle>Confirm Your Appointment</DialogTitle>
+                        <DialogTitle>{t.confirmYourAppointment}</DialogTitle>
                         <DialogContent>
                             <Stack spacing={2} sx={{mt: 2}}>
                                 <Typography>
-                                    <strong>Service:</strong> {selectedService?.name}
+                                    <strong>{t.service}:</strong> {selectedService?.name}
                                 </Typography>
                                 <Typography>
-                                    <strong>Price:</strong> ${selectedService?.price}
+                                    <strong>{t.price}:</strong> ${selectedService?.price}
                                 </Typography>
                                 <Typography>
-                                    <strong>Barber:</strong> {getSelectedBarber()?.firstName}{" "}
+                                    <strong>{t.barber}:</strong> {getSelectedBarber()?.firstName}{" "}
                                     {getSelectedBarber()?.lastName}
                                 </Typography>
                                 <Typography>
-                                    <strong>Date:</strong> {formatDate(selectedDate)}
+                                    <strong>{t.date}:</strong> {formatDate(selectedDate)}
                                 </Typography>
                                 <Typography>
-                                    <strong>Time:</strong> {selectedTime}
+                                    <strong>{t.time}:</strong> {selectedTime}
                                 </Typography>
                                 <Typography>
-                                    <strong>Name:</strong> {name}
+                                    <strong>{t.name}:</strong> {name}
                                 </Typography>
                                 <Typography>
-                                    <strong>Phone:</strong> {phone}
+                                    <strong>{t.phone}:</strong> {phone}
                                 </Typography>
                             </Stack>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={() => setShowConfirmation(false)}>Cancel</Button>
+                            <Button onClick={() => setShowConfirmation(false)}>{t.cancel}</Button>
                             <Button
                                 onClick={handleConfirmBooking}
                                 variant="contained"
@@ -300,7 +302,7 @@ export default function BookPage() {
                                     },
                                 }}
                             >
-                                Confirm Booking
+                                {t.confirmBooking}
                             </Button>
                         </DialogActions>
                     </Dialog>
@@ -316,7 +318,7 @@ export default function BookPage() {
                         }}
                         fullWidth
                     >
-                        Book Appointment
+                        {t.bookAppointment}
                     </Button>
                 </Stack>
             )}

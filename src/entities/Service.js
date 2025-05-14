@@ -4,13 +4,16 @@ export class Service {
     this.name = data.name;
     this.description = data.description;
     this.price = data.price;
-    this.duration = data.duration; // in minutes
+    this.duration_minutes = data.duration_minutes; // in minutes
   }
 
   static async getAll() {
     try {
       const response = await fetch('/api/services');
-      if (!response.ok) throw new Error('Failed to fetch services');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch services');
+      }
       const data = await response.json();
       return data.map(service => new Service(service));
     } catch (error) {
@@ -22,7 +25,10 @@ export class Service {
   static async getById(id) {
     try {
       const response = await fetch(`/api/services/${id}`);
-      if (!response.ok) throw new Error('Failed to fetch service');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch service');
+      }
       const data = await response.json();
       return new Service(data);
     } catch (error) {
@@ -36,22 +42,31 @@ export class Service {
       const method = this.id ? 'PUT' : 'POST';
       const url = this.id ? `/api/services/${this.id}` : '/api/services';
       
+      const requestBody = {
+        name: this.name,
+        description: this.description,
+        price: this.price,
+        duration_minutes: this.duration_minutes
+      };
+
+      console.log('Sending request:', { method, url, body: requestBody });
+
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: this.name,
-          description: this.description,
-          price: this.price,
-          duration: this.duration
-        }),
+        body: JSON.stringify(requestBody),
       });
 
-      if (!response.ok) throw new Error('Failed to save service');
-      const data = await response.json();
-      return new Service(data);
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        console.error('Server response:', responseData);
+        throw new Error(responseData.error || 'Failed to save service');
+      }
+
+      return new Service(responseData);
     } catch (error) {
       console.error('Error saving service:', error);
       throw error;
@@ -64,7 +79,10 @@ export class Service {
         method: 'DELETE',
       });
 
-      if (!response.ok) throw new Error('Failed to delete service');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to delete service');
+      }
       return true;
     } catch (error) {
       console.error('Error deleting service:', error);

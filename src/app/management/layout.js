@@ -1,13 +1,21 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Cookies from 'js-cookie';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Button } from '@mui/material';
 import ClientLayout from '@/components/ClientLayout';
+import { ArrowLeft } from 'lucide-react';
+import { getTranslations } from '@/translations';
 
 export default function ManagementLayout({ children }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const isHebrew = Cookies.get("langPref") === "hebrew";
+  const t = getTranslations(isHebrew);
+
+  // Check if we're in a subfolder of management
+  const isSubFolder = pathname !== '/management';
 
   useEffect(() => {
     const userData = Cookies.get('userData');
@@ -27,6 +35,21 @@ export default function ManagementLayout({ children }) {
     <ClientLayout currentPageName="Management">
       <Container maxWidth="lg">
         <Box sx={{ my: 4 }}>
+          {isSubFolder && (
+            <Button
+              startIcon={<ArrowLeft />}
+              onClick={() => router.push('/management')}
+              sx={{
+                mb: 3,
+                color: '#2D5043',
+                '&:hover': {
+                  bgcolor: 'rgba(45, 80, 67, 0.1)',
+                },
+              }}
+            >
+              {t.backToManagement}
+            </Button>
+          )}
           {children}
         </Box>
       </Container>

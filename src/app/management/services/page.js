@@ -49,7 +49,7 @@ export default function ServiceManagementPage() {
   const handleEdit = async (id, formData) => {
     try {
       const service = new Service({ ...formData, id });
-      await service.update();
+      await service.save();
       await loadServices();
     } catch (error) {
       setError('Failed to update service');
@@ -70,7 +70,7 @@ export default function ServiceManagementPage() {
 
   const getServiceDetails = (service) => [
     { label: 'Price', value: `$${service.price}` },
-    { label: 'Duration', value: `${service.duration} minutes` }
+    { label: 'Duration', value: `${service.duration_minutes} minutes` }
   ];
 
   const serviceFields = [
@@ -94,7 +94,7 @@ export default function ServiceManagementPage() {
       inputProps: { step: "0.01" }
     },
     {
-      name: 'duration',
+      name: 'duration_minutes',
       label: 'Duration (minutes)',
       type: 'number',
       required: true
@@ -105,14 +105,14 @@ export default function ServiceManagementPage() {
     { field: 'name', headerName: 'Name' },
     { field: 'description', headerName: 'Description' },
     { field: 'price', headerName: 'Price', align: 'right' },
-    { field: 'duration', headerName: 'Duration (min)', align: 'right' }
+    { field: 'duration_minutes', headerName: 'Duration (min)', align: 'right' }
   ];
 
   const initialFormData = {
     name: '',
     description: '',
     price: '',
-    duration: ''
+    duration_minutes: ''
   };
 
   return (
