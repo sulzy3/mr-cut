@@ -19,7 +19,6 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PhoneIcon from '@mui/icons-material/Phone';
-import EmailIcon from '@mui/icons-material/Email';
 
 export default function AboutPage() {
   return (
@@ -63,12 +62,6 @@ export default function AboutPage() {
                   <ListItemText primary="(555) 123-4567" sx={{ textAlign: 'center' }} />
                 </ListItem>
                 <Divider />
-                <ListItem sx={{ justifyContent: 'center' }}>
-                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
-                    <EmailIcon sx={{ color: '#2D5043' }} />
-                  </ListItemIcon>
-                  <ListItemText primary="info@mrcut.com" sx={{ textAlign: 'center' }} />
-                </ListItem>
               </List>
             </CardContent>
           </Card>
