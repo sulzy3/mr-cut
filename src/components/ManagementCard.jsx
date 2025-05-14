@@ -36,7 +36,7 @@ export default function ManagementCard({
         <Box sx={{ mt: 2 }}>
           {details.map((detail, index) => (
             <Typography key={index} variant="body2" color="text.secondary">
-              {detail.label}: {detail.value}
+              {detail.label}: {typeof detail.value === 'object' ? JSON.stringify(detail.value) : detail.value}
             </Typography>
           ))}
         </Box>
