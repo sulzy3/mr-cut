@@ -60,18 +60,17 @@ export default function BarbersManagement() {
 
   const barberFields = [
     {
-      name: 'name',
-      label: 'Name',
+      name: 'first_name',
+      label: 'First Name',
       required: true
     },
     {
-      name: 'email',
-      label: 'Email',
-      type: 'email',
+      name: 'last_name',
+      label: 'Last Name',
       required: true
     },
     {
-      name: 'phone',
+      name: 'phone_number',
       label: 'Phone',
       required: true
     },
@@ -81,16 +80,16 @@ export default function BarbersManagement() {
       required: true
     },
     {
-      name: 'workingHours',
+      name: 'working_hours',
       label: 'Working Hours',
       customComponent: 'WorkingHoursEditor'
     }
   ];
 
   const barberColumns = [
-    { field: 'name', headerName: 'Name' },
-    { field: 'email', headerName: 'Email' },
-    { field: 'phone', headerName: 'Phone' },
+    { field: 'firstName', headerName: 'First Name' },
+    { field: 'lastName', headerName: 'Last Name' },
+    { field: 'phone_number', headerName: 'Phone' },
     { 
       field: 'specialties', 
       headerName: 'Specialties',
@@ -99,18 +98,18 @@ export default function BarbersManagement() {
   ];
 
   const initialFormData = {
-    name: '',
-    email: '',
-    phone: '',
+    first_name: '',
+    last_name: '',
+    phone_number: '',
     specialties: '',
-    workingHours: {
-      monday: { start: '09:00', end: '17:00', isWorking: true },
-      tuesday: { start: '09:00', end: '17:00', isWorking: true },
-      wednesday: { start: '09:00', end: '17:00', isWorking: true },
-      thursday: { start: '09:00', end: '17:00', isWorking: true },
-      friday: { start: '09:00', end: '17:00', isWorking: true },
-      saturday: { start: '09:00', end: '17:00', isWorking: true },
-      sunday: { start: '09:00', end: '17:00', isWorking: false }
+    working_hours: {
+      monday: { start: '09:00', end: '17:00' },
+      tuesday: { start: '09:00', end: '17:00' },
+      wednesday: { start: '09:00', end: '17:00' },
+      thursday: { start: '09:00', end: '17:00' },
+      friday: { start: '09:00', end: '17:00' },
+      saturday: { start: '09:00', end: '17:00' },
+      sunday: { start: '09:00', end: '17:00' }
     }
   };
 

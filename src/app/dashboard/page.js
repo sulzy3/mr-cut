@@ -16,8 +16,13 @@ import {
 } from '@mui/material';
 import { Calendar, Clock, MapPin, Scissors } from 'lucide-react';
 import ClientLayout from '@/components/ClientLayout';
+import Cookies from 'js-cookie';
+import { getTranslations } from '@/translations';
 
 export default function DashboardPage() {
+  const isHebrew = Cookies.get("langPref") === "hebrew";
+  const t = getTranslations(isHebrew);
+
   return (
     <ClientLayout currentPageName="Home">
       <Box>
@@ -50,7 +55,7 @@ export default function DashboardPage() {
                 fontSize: { xs: '2.5rem', md: '3.75rem' }
               }}
             >
-              OLD SCHOOL - NEW STYLE
+              {t.oldSchoolNewStyle}
             </Typography>
             <Typography
               variant="h5"
@@ -61,7 +66,7 @@ export default function DashboardPage() {
                 color: '#F5F1E6'
               }}
             >
-              Experience precision haircuts and grooming services from expert barbers who understand your style.
+              {t.experiencePrecision}
             </Typography>
             <Box sx={{ mt: 5 }}>
               <Link href={createPageUrl('Book')}>
@@ -76,7 +81,7 @@ export default function DashboardPage() {
                     color: 'white',
                   }}
                 >
-                  Book Your Appointment
+                  {t.bookYourAppointment}
                 </Button>
               </Link>
             </Box>
@@ -88,7 +93,7 @@ export default function DashboardPage() {
           <Container maxWidth="xl">
             <Box sx={{ textAlign: 'center', mb: 6 }}>
               <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#2D5043' }}>
-                Why Choose Us
+                {t.whyChooseUs}
               </Typography>
               <Box sx={{ width: '96px', height: '4px', bgcolor: '#B87333', mx: 'auto', mt: 2 }} />
             </Box>
@@ -98,10 +103,10 @@ export default function DashboardPage() {
                   <CardContent>
                     <Scissors style={{ height: '32px', width: '32px', color: '#2D5043', marginBottom: '1rem' }} />
                     <Typography variant="h6" sx={{ fontWeight: 500, color: '#2D5043' }}>
-                      Expert Barbers
+                      {t.expertBarbers}
                     </Typography>
                     <Typography sx={{ mt: 1, color: '#8B5A2B' }}>
-                      Skilled professionals with years of experience
+                      {t.skilledProfessionals}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -111,10 +116,10 @@ export default function DashboardPage() {
                   <CardContent>
                     <Calendar style={{ height: '32px', width: '32px', color: '#2D5043', marginBottom: '1rem' }} />
                     <Typography variant="h6" sx={{ fontWeight: 500, color: '#2D5043' }}>
-                      Easy Booking
+                      {t.easyBooking}
                     </Typography>
                     <Typography sx={{ mt: 1, color: '#8B5A2B' }}>
-                      Book your appointment online anytime
+                      {t.bookOnline}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -124,10 +129,10 @@ export default function DashboardPage() {
                   <CardContent>
                     <Clock style={{ height: '32px', width: '32px', color: '#2D5043', marginBottom: '1rem' }} />
                     <Typography variant="h6" sx={{ fontWeight: 500, color: '#2D5043' }}>
-                      Flexible Hours
+                      {t.flexibleHours}
                     </Typography>
                     <Typography sx={{ mt: 1, color: '#8B5A2B' }}>
-                      Open 6 days a week for your convenience
+                      {t.openSixDays}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -137,10 +142,10 @@ export default function DashboardPage() {
                   <CardContent>
                     <MapPin style={{ height: '32px', width: '32px', color: '#2D5043', marginBottom: '1rem' }} />
                     <Typography variant="h6" sx={{ fontWeight: 500, color: '#2D5043' }}>
-                      Prime Location
+                      {t.primeLocation}
                     </Typography>
                     <Typography sx={{ mt: 1, color: '#8B5A2B' }}>
-                      Easily accessible in the heart of the city
+                      {t.easilyAccessible}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -161,10 +166,10 @@ export default function DashboardPage() {
             >
               <Box>
                 <Typography variant="h3" sx={{ fontWeight: 'bold', color: 'white' }}>
-                  Ready for a fresh look?
+                  {t.readyForFreshLook}
                 </Typography>
                 <Typography variant="h6" sx={{ color: '#AFBFAD', mt: 1 }}>
-                  Book your appointment today and experience the difference.
+                  {t.bookToday}
                 </Typography>
               </Box>
               <Box>
@@ -180,7 +185,7 @@ export default function DashboardPage() {
                       color: 'white',
                     }}
                   >
-                    Book Now
+                    {t.bookNow}
                   </Button>
                 </Link>
               </Box>

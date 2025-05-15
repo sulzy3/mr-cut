@@ -1,8 +1,8 @@
 export class Barber {
   constructor(data) {
     this.id = data.id;
-    this.firstName = data.firstName;
-    this.lastName = data.lastName;
+    this.firstName = data.first_name || data.firstName;
+    this.lastName = data.last_name || data.lastName;
     this.phone_number = data.phone_number;
     this.specialties = data.specialties || [];
     this.working_hours = data.working_hours || {
@@ -25,8 +25,8 @@ export class Barber {
   toJSON() {
     return {
       id: this.id,
-      firstName: this.firstName,
-      lastName: this.lastName,
+      first_name: this.firstName,
+      last_name: this.lastName,
       phone_number: this.phone_number,
       specialties: this.specialties,
       working_hours: this.working_hours,
@@ -38,8 +38,8 @@ export class Barber {
   static fromJSON(json) {
     return new Barber({
       id: json.id,
-      firstName: json.firstName,
-      lastName: json.lastName,
+      first_name: json.firstName,
+      last_name: json.lastName,
       phone_number: json.phone_number,
       specialties: json.specialties,
       working_hours: json.working_hours,
@@ -83,8 +83,8 @@ export class Barber {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          firstName: this.firstName,
-          lastName: this.lastName,
+          first_name: this.firstName,
+          last_name: this.lastName,
           phone_number: this.phone_number,
           specialties: this.specialties,
           working_hours: this.working_hours,

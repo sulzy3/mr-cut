@@ -83,8 +83,8 @@ export default function ManagementSection({
         {items.map((item) => (
           <Grid item xs={12} key={item.id}>
             <ManagementCard
-              title={item[columns[0].field]}
-              description={item[columns[1]?.field]}
+              title={columns[0].valueGetter ? columns[0].valueGetter({ row: item }) : item[columns[0].field]}
+              description={columns[1]?.valueGetter ? columns[1].valueGetter({ row: item }) : item[columns[1]?.field]}
               details={getDetails(item)}
               onEdit={() => handleOpenDialog(item)}
               onDelete={() => onDelete(item.id)}
@@ -114,7 +114,7 @@ export default function ManagementSection({
             <TableRow key={item.id}>
               {columns.map((column) => (
                 <TableCell key={column.field} align={column.align || 'left'}>
-                  {column.renderCell ? column.renderCell(item) : item[column.field]}
+                  {column.valueGetter ? column.valueGetter({ row: item }) : item[column.field]}
                 </TableCell>
               ))}
               <TableCell align="right">

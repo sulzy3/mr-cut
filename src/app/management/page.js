@@ -84,13 +84,6 @@ export default function ManagementDashboard() {
       color: '#B87333'
     },
     {
-      title: 'Customer Management',
-      description: 'Manage customer information and history',
-      icon: <Users size={24} />,
-      href: '/management/customers',
-      color: '#8B5A2B'
-    },
-    {
       title: 'Barber Management',
       description: 'Manage barber schedules and profiles',
       icon: <User size={24} />,

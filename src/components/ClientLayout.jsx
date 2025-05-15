@@ -22,6 +22,7 @@ import {
 import LanguageToggle from "@/components/LanguageToggle.jsx";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { getTranslations } from "@/translations";
 
 export default function ClientLayout({ children, currentPageName }) {
   const router = useRouter();
@@ -34,6 +35,8 @@ export default function ClientLayout({ children, currentPageName }) {
 
   useEffect(() => {
     const userData = Cookies.get("userData");
+    const langPref = Cookies.get("langPref");
+    
     if (!userData && window.location.pathname !== "/") {
       router.push("/");
       return;
@@ -43,8 +46,9 @@ export default function ClientLayout({ children, currentPageName }) {
       if (userData) {
         const parsedUserData = JSON.parse(userData);
         setCurrentUser(parsedUserData);
-        setIsHebrew(parsedUserData.language_preference === "hebrew");
       }
+      // Set language preference from cookie or default to false
+      setIsHebrew(langPref === "hebrew");
     } catch (error) {
       console.error("Error parsing user data:", error);
       router.push("/");
@@ -52,49 +56,17 @@ export default function ClientLayout({ children, currentPageName }) {
     setIsLoading(false);
   }, [router]);
 
+  // Add effect to update language preference cookie
+  useEffect(() => {
+    Cookies.set("langPref", isHebrew ? "hebrew" : "english");
+  }, [isHebrew]);
+
   const handleLogout = () => {
     Cookies.remove("userData");
     router.push("/");
   };
 
-  const translations = {
-    english: {
-      home: "Home",
-      services: "Services",
-      bookNow: "Book Now",
-      about: "About",
-      management: "Management",
-      serviceManagement: "Service Management",
-      location: "Location",
-      hours: "Hours",
-      contact: "Contact",
-      followUs: "Follow Us",
-      rights: "All rights reserved.",
-      logout: "Logout",
-      appointmentManagement: "Appointment Management",
-      customerManagement: "Customer Management",
-      barberManagement: "Barber Management",
-    },
-    hebrew: {
-      home: "דף הבית",
-      services: "שירותים",
-      bookNow: "הזמן תור",
-      about: "אודות",
-      management: "ניהול",
-      serviceManagement: "ניהול שירותים",
-      location: "מיקום",
-      hours: "שעות פעילות",
-      contact: "צור קשר",
-      followUs: "עקבו אחרינו",
-      rights: "כל הזכויות שמורות.",
-      logout: "התנתק",
-      appointmentManagement: "ניהול תורים",
-      customerManagement: "ניהול לקוחות",
-      barberManagement: "ניהול ברברים",
-    },
-  };
-
-  const t = isHebrew ? translations.hebrew : translations.english;
+  const t = getTranslations(isHebrew);
 
   const isBarber =
     currentUser?.role.toUpperCase() === "BARBER" || currentUser?.userType.toUpperCase() === "ADMIN";

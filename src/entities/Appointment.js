@@ -16,6 +16,9 @@ export class Appointment {
     this.serviceId = data.serviceId;
     this.barberId = data.barberId;
     this.status = data.status;
+    // Preserve nested data
+    this.service = data.service;
+    this.barber = data.barber;
   }
 
   static async getAll({ barberId, date } = {}) {
