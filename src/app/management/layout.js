@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import {useEffect} from 'react';
+import {usePathname, useRouter} from 'next/navigation';
 import Cookies from 'js-cookie';
-import { Box, Container, Button } from '@mui/material';
-import ClientLayout from '@/components/ClientLayout';
-import { ArrowRight } from 'lucide-react';
-import { getTranslations } from '@/translations';
+import {Box, Button, Container} from '@mui/material';
+import {ArrowRight} from 'lucide-react';
+import {getTranslations} from '@/translations';
 
 export default function ManagementLayout({ children }) {
   const router = useRouter();
@@ -31,7 +30,6 @@ export default function ManagementLayout({ children }) {
   }, [router]);
 
   return (
-    <ClientLayout currentPageName="Management">
       <Container maxWidth="lg">
         <Box sx={{ my: 4 }}>
           {isSubFolder && (
@@ -52,6 +50,5 @@ export default function ManagementLayout({ children }) {
           {children}
         </Box>
       </Container>
-    </ClientLayout>
   );
 } 
