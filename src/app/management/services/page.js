@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { Service } from '@/entities/Service';
 import ManagementSection from '@/components/ManagementSection';
+import {getTranslations} from '@/translations';
+
+const t = getTranslations(true);
 
 export default function ServiceManagementPage() {
   const router = useRouter();
@@ -69,55 +72,46 @@ export default function ServiceManagementPage() {
   };
 
   const getServiceDetails = (service) => [
-    { label: 'Price', value: `$${service.price}` },
-    { label: 'Duration', value: `${service.duration_minutes} minutes` }
+    { label: 'מחיר', value: `$${service.price}` },
+    { label: 'זמן', value: `${service.duration_minutes} דקות` }
   ];
 
   const serviceFields = [
     {
       name: 'name',
-      label: 'Service Name',
-      required: true
-    },
-    {
-      name: 'description',
-      label: 'Description',
-      multiline: true,
-      rows: 3,
+      label: 'שם השירות',
       required: true
     },
     {
       name: 'price',
-      label: 'Price',
+      label: 'מחיר',
       type: 'number',
       required: true,
       inputProps: { step: "0.01" }
     },
     {
       name: 'duration_minutes',
-      label: 'Duration (minutes)',
+      label: 'זמן (דקות)',
       type: 'number',
       required: true
     }
   ];
 
   const serviceColumns = [
-    { field: 'name', headerName: 'Name' },
-    { field: 'description', headerName: 'Description' },
-    { field: 'price', headerName: 'Price', align: 'right' },
-    { field: 'duration_minutes', headerName: 'Duration (min)', align: 'right' }
+    { field: 'name', headerName: 'שם', align: 'right' },
+    { field: 'price', headerName: 'מחיר', align: 'right' },
+    { field: 'duration_minutes', headerName: 'זמן (דקות)', align: 'right' }
   ];
 
   const initialFormData = {
     name: '',
-    description: '',
     price: '',
     duration_minutes: ''
   };
 
   return (
     <ManagementSection
-      title="Service Management"
+      title={t.serviceManagement}
       items={services}
       fields={serviceFields}
       onAdd={handleAdd}
@@ -126,7 +120,7 @@ export default function ServiceManagementPage() {
       columns={serviceColumns}
       getDetails={getServiceDetails}
       initialFormData={initialFormData}
-      dialogTitle="Service"
+      dialogTitle="שירות"
     />
   );
-} 
+}

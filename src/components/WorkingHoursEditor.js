@@ -6,13 +6,12 @@ export default function WorkingHoursEditor({
   isMobile = false
 }) {
   const days = [
-    { key: 'monday', label: 'Monday' },
-    { key: 'tuesday', label: 'Tuesday' },
-    { key: 'wednesday', label: 'Wednesday' },
-    { key: 'thursday', label: 'Thursday' },
-    { key: 'friday', label: 'Friday' },
-    { key: 'saturday', label: 'Saturday' },
-    { key: 'sunday', label: 'Sunday' }
+    { key: 'sunday', label: 'ראשון' },
+    { key: 'monday', label: 'שני' },
+    { key: 'tuesday', label: 'שלישי' },
+    { key: 'wednesday', label: 'רביעי' },
+    { key: 'thursday', label: 'חמישי' },
+    { key: 'friday', label: 'שישי' }
   ];
 
   const handleTimeChange = (day, field, value) => {
@@ -42,7 +41,7 @@ export default function WorkingHoursEditor({
   return (
     <Box sx={{ mt: 2 }}>
       <Typography variant="h6" gutterBottom>
-        Working Hours
+        שעות עבודה
       </Typography>
       <Grid container spacing={2}>
         {days.map((day) => (
@@ -66,7 +65,7 @@ export default function WorkingHoursEditor({
                   <Grid item xs={6}>
                     <TextField
                       fullWidth
-                      label="Start Time"
+                      label="התחלה"
                       type="time"
                       value={workingHours[day.key]?.start || '09:00'}
                       onChange={(e) => handleTimeChange(day.key, 'start', e.target.value)}
@@ -77,7 +76,7 @@ export default function WorkingHoursEditor({
                   <Grid item xs={6}>
                     <TextField
                       fullWidth
-                      label="End Time"
+                      label="סיום"
                       type="time"
                       value={workingHours[day.key]?.end || '17:00'}
                       onChange={(e) => handleTimeChange(day.key, 'end', e.target.value)}

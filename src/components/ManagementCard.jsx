@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Card, CardContent, Typography, Box, Button } from '@mui/material';
+import {Box, Button, Card, CardContent, Typography} from '@mui/material';
 
 export default function ManagementCard({ 
   title, 
@@ -12,7 +12,6 @@ export default function ManagementCard({
   details,
   onEdit,
   onDelete,
-  workingHours
 }) {
   const renderCardContent = () => (
     <CardContent>
@@ -45,12 +44,12 @@ export default function ManagementCard({
         <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
           {onEdit && (
             <Button size="small" onClick={onEdit}>
-              Edit
+                ערוך
             </Button>
           )}
           {onDelete && (
             <Button size="small" color="error" onClick={onDelete}>
-              Delete
+              מחק
             </Button>
           )}
         </Box>

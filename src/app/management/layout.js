@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { Box, Container, Button } from '@mui/material';
 import ClientLayout from '@/components/ClientLayout';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { getTranslations } from '@/translations';
 
 export default function ManagementLayout({ children }) {
@@ -27,7 +27,6 @@ export default function ManagementLayout({ children }) {
     const { userType } = JSON.parse(userData);
     if (userType !== 'barber' && userType !== 'admin') {
       router.push('/dashboard');
-      return;
     }
   }, [router]);
 
@@ -37,7 +36,6 @@ export default function ManagementLayout({ children }) {
         <Box sx={{ my: 4 }}>
           {isSubFolder && (
             <Button
-              startIcon={<ArrowLeft />}
               onClick={() => router.push('/management')}
               sx={{
                 mb: 3,
@@ -47,6 +45,7 @@ export default function ManagementLayout({ children }) {
                 },
               }}
             >
+              <ArrowRight />
               {t.backToManagement}
             </Button>
           )}

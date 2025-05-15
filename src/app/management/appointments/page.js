@@ -7,6 +7,9 @@ import { Appointment } from "@/entities/Appointment";
 import ManagementSection from "@/components/ManagementSection";
 import { format } from "date-fns";
 import {Service} from '@/entities/Service';
+import {getTranslations} from '@/translations';
+
+const t = getTranslations(true);
 
 export default function AppointmentsManagementPage() {
   const router = useRouter();
@@ -91,39 +94,39 @@ export default function AppointmentsManagementPage() {
   const getAppointmentDetails = (appointment) => {
     return [
       {
-        label: "Appointment Time",
+        label: "זמן תור",
         value: format(
           new Date(`${appointment.date.split("T")[0]}T${appointment.time}`),
           "h:mm a"
         ),
       },
       {
-        label: "Barber",
+        label: "ספר",
         value: appointment.barber?.firstName 
           ? `${appointment.barber.firstName} ${appointment.barber.lastName}`
-          : "N/A",
+          : "לא ידוע",
       },
       {
-        label: "Service",
-        value: appointment.service?.name || "N/A",
+        label: "שירות",
+        value: appointment.service?.name || "לא ידוע",
       },
       {
-        label: "Duration",
+        label: "זמן",
         value: appointment.service?.duration_minutes 
           ? `${appointment.service.duration_minutes} minutes`
-          : "N/A",
+          : "לא ידוע",
       },
       {
-        label: "Price",
+        label: "מחיר",
         value: appointment.service?.price 
-          ? `$${appointment.service.price}`
-          : "N/A",
+          ? `₪${appointment.service.price}`
+          : "לא ידוע",
       },
       {
-        label: "Status",
+        label: "סטטוס",
         value: appointment.status 
           ? appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)
-          : "N/A",
+          : "לא ידוע",
       }
     ];
   };
@@ -131,19 +134,19 @@ export default function AppointmentsManagementPage() {
   const appointmentFields = [
     {
       name: "date",
-      label: "Date",
+      label: "תאריך",
       type: "date",
       required: true,
     },
     {
       name: "time",
-      label: "Time",
+      label: "שעה",
       type: "time",
       required: true,
     },
     {
       name: "serviceId",
-      label: "Service",
+      label: "שירות",
       type: "select",
       required: true,
       options: services, // This should be populated with available services
@@ -153,55 +156,50 @@ export default function AppointmentsManagementPage() {
   const appointmentColumns = [
     {
       field: "dateTime",
-      headerName: "Date & Time",
+      headerName: "תאריך ושעה",
+      align: "right",
       valueGetter: (params) => {
         const appointment = params.row;
         return format(
           new Date(`${appointment.date}T${appointment.time}`),
-          "PPp"
+          "d/MM/yyyy HH:mm"
         );
       },
     },
     {
       field: "service",
-      headerName: "Service",
+      headerName: "שירות",
+      align: "right",
       valueGetter: (params) => {
         const service = params.row.service;
-        return service?.name || "N/A";
+        return service?.name || "לא ידוע";
       },
     },
     {
       field: "price",
-      headerName: "Price",
+      headerName: "מחיר",
       valueGetter: (params) => {
         const service = params.row.service;
-        return service?.price ? `$${service.price}` : "N/A";
+        return service?.price ? `₪${service.price}` : "לא ידוע";
       },
       align: "right",
     },
     {
       field: "duration",
-      headerName: "Duration",
+      headerName: "זמן",
       valueGetter: (params) => {
         const service = params.row.service;
-        return service?.duration_minutes ? `${service.duration_minutes} min` : "N/A";
+        return service?.duration_minutes ? `${service.duration_minutes} דקות` : "לא ידוע";
       },
       align: "right",
     },
     {
       field: "barber",
-      headerName: "Barber",
+      headerName: "ספר",
+      align: "right",
       valueGetter: (params) => {
         const barber = params.row.barber;
-        return barber?.firstName ? `${barber.firstName} ${barber.lastName}` : "N/A";
-      },
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      valueGetter: (params) => {
-        const status = params.row.status;
-        return status ? status.charAt(0).toUpperCase() + status.slice(1) : "N/A";
+        return barber?.firstName ? `${barber.firstName} ${barber.lastName}` : "לא ידוע";
       },
     },
   ];
@@ -215,7 +213,7 @@ export default function AppointmentsManagementPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Appointment Management</h1>
+        <h1 className="text-2xl font-bold">{t.appointmentManagement}</h1>
         <div className="flex items-center space-x-4">
           <label htmlFor="date" className="text-sm font-medium text-gray-700">
             Select Date:
@@ -245,8 +243,8 @@ export default function AppointmentsManagementPage() {
           <div className="flex">
             <div className="ml-3">
               <p className="text-sm text-blue-700">
-                No appointments scheduled for{" "}
-                {format(new Date(selectedDate), "MMMM d, yyyy")}
+                אין תורים בתאריך{" "}
+                {format(new Date(selectedDate), "d/MM/yyyy")}
               </p>
             </div>
           </div>
@@ -263,7 +261,7 @@ export default function AppointmentsManagementPage() {
         columns={appointmentColumns}
         getDetails={getAppointmentDetails}
         initialFormData={initialFormData}
-        dialogTitle="Appointment"
+        dialogTitle="תור"
       />
     </div>
   );

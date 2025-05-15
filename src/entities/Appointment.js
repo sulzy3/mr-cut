@@ -70,7 +70,7 @@ export class Appointment {
           time: this.time,
           service_id: this.serviceId,
           barber_id: this.barberId,
-          status: 'pending',
+          status: 'מאושר',
           created_at: now,
           updated_at: now,
         }),
