@@ -224,9 +224,9 @@ export default function ClientLayout({ children, currentPageName }) {
                 {t.location}
               </Typography>
               <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                123 Barber Street
+                קנאי הגליל 9
                 <br />
-                New York, NY 10001
+                ירושלים
               </Typography>
             </Box>
             <Box>
@@ -234,9 +234,8 @@ export default function ClientLayout({ children, currentPageName }) {
                 {t.hours}
               </Typography>
               <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                Mon-Fri: 9:00 AM - 8:00 PM
-                <br />
-                Sat-Sun: 10:00 AM - 6:00 PM
+                ראשון עד חמישי:<br/>
+                09:00 - 20:00
               </Typography>
             </Box>
             <Box>
@@ -244,9 +243,7 @@ export default function ClientLayout({ children, currentPageName }) {
                 {t.contact}
               </Typography>
               <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                Phone: (555) 123-4567
-                <br />
-                Email: info@mrcut.com
+                טלפון: 053-7152798
               </Typography>
             </Box>
             <Box>
