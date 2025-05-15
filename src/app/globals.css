@@ -6,6 +6,7 @@
 
 html,
 body {
+  direction: rtl;
   max-width: 100vw;
   overflow-x: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -14,4 +15,16 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+[dir="rtl"] .MuiFormLabel-root {
+  left: auto;
+  right: auto;
+  transform-origin: top right;
+  text-align: right;
+  margin-right: 25px;
+}
+
+[dir="rtl"] .MuiOutlinedInput-notchedOutline {
+  text-align: right;
 }

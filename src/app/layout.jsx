@@ -9,8 +9,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <head>
+    <html lang="en" dir={"rtl"}>
+      <head title={"Mr Cut"}>
         <meta name="emotion-insertion-point" content="" />
       </head>
       <body>

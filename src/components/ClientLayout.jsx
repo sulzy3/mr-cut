@@ -30,7 +30,7 @@ export default function ClientLayout({ children, currentPageName }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [isHebrew, setIsHebrew] = useState(false);
+  const [isHebrew, setIsHebrew] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -88,8 +88,8 @@ export default function ClientLayout({ children, currentPageName }) {
 
   if (isLoading) {
     return (
-      <Box 
-        sx={{ 
+      <Box
+        sx={{
           minHeight: '100vh', 
           bgcolor: '#F5F1E6',
           display: 'flex',
@@ -110,7 +110,10 @@ export default function ClientLayout({ children, currentPageName }) {
   }
 
   return (
-    <Box sx={{ 
+    <Box
+        className={"client layout"}
+
+        sx={{
       minHeight: '100vh', 
       bgcolor: '#F5F1E6', 
       direction: isHebrew ? 'rtl' : 'ltr',
@@ -134,7 +137,7 @@ export default function ClientLayout({ children, currentPageName }) {
 
           {!isMobile && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <LanguageToggle isHebrew={isHebrew} setIsHebrew={setIsHebrew} />
+              {/*<LanguageToggle isHebrew={isHebrew} setIsHebrew={setIsHebrew} />*/}
               
               {navigation.map((item) => (
                 <Link
@@ -184,9 +187,9 @@ export default function ClientLayout({ children, currentPageName }) {
         </Toolbar>
       </AppBar>
 
-      <Box 
-        component="main" 
-        sx={{ 
+      <Box
+        component="main"
+        sx={{
           flexGrow: 1,
           mt: '64px', // Add margin top to account for fixed AppBar
           minHeight: 'calc(100vh - 64px)', // Subtract AppBar height

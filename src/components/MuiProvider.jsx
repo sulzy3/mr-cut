@@ -8,6 +8,7 @@ import createEmotionCache from './EmotionCache';
 const clientSideEmotionCache = createEmotionCache();
 
 const theme = createTheme({
+  direction:'rtl',
   palette: {
     mode: 'light',
     primary: {

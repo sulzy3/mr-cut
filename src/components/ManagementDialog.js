@@ -21,8 +21,7 @@ export default function ManagementDialog({
       onClose={onClose} 
       maxWidth="sm" 
       fullWidth
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       <DialogTitle>
         {title}
       </DialogTitle>

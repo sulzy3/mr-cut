@@ -3,28 +3,18 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { createPageUrl } from '@/utils';
-import { 
-  Button, 
-  Card, 
-  CardContent, 
-  Box, 
-  Container, 
-  Typography, 
-  Grid,
-  Stack
-} from '@mui/material';
-import { Calendar, Clock, MapPin, Scissors } from 'lucide-react';
-import ClientLayout from '@/components/ClientLayout';
+import {createPageUrl} from '@/utils';
+import {Box, Button, Card, CardContent, Container, Grid, Stack, Typography} from '@mui/material';
+import {Calendar, Clock, MapPin, Scissors} from 'lucide-react';
 import Cookies from 'js-cookie';
-import { getTranslations } from '@/translations';
+import {getTranslations} from '@/translations';
 
 export default function DashboardPage() {
   const isHebrew = Cookies.get("langPref") === "hebrew";
   const t = getTranslations(isHebrew);
 
   return (
-    <ClientLayout currentPageName="Home">
+    // <ClientLayout currentPageName="Home">
       <Box>
         {/* Hero Section */}
         <Box sx={{ position: 'relative' }}>
@@ -193,6 +183,6 @@ export default function DashboardPage() {
           </Container>
         </Box>
       </Box>
-    </ClientLayout>
+    // </ClientLayout>
   );
 }

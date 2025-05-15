@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Button, 
-  Paper, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow,
+import {useState} from 'react';
+import {
+  Box,
+  Button,
   Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
   useMediaQuery,
   useTheme
 } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import {Add} from '@mui/icons-material';
 import ManagementCard from './ManagementCard';
 import ManagementDialog from './ManagementDialog';
 import WorkingHoursEditor from './WorkingHoursEditor';
@@ -39,6 +39,7 @@ export default function ManagementSection({
   const [formData, setFormData] = useState(initialFormData);
 
   const handleOpenDialog = (item = null) => {
+    console.log(item)
     if (item) {
       setEditingItem(item);
       setFormData(item);
