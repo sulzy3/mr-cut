@@ -63,7 +63,7 @@ export class Appointment {
         },
         body: JSON.stringify({
           // customer_name: this.customerName,
-          id: `${this.customerPhone}-${this.barberId}`,
+          id: `${this.customerPhone}-${this.barberId}-${this.date}`,
           date: this.date,
           time: this.time,
           service_id: this.serviceId,
