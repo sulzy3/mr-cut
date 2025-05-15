@@ -23,8 +23,7 @@ const nextConfig = {
     ],
   },
   env: {
-    DATABASE_URL: process.env.DATABASE_URL,
-    DIRECT_DATABASE_URL: process.env.DIRECT_DATABASE_URL,
+    POSTGRES_URL: process.env.POSTGRES_URL,
   },
   webpack: (config) => {
     config.resolve.alias = {
