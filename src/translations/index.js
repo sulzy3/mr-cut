@@ -73,20 +73,20 @@ export const translations = {
         logout: "התנתק",
         appointmentManagement: "ניהול תורים",
         customerManagement: "ניהול לקוחות",
-        barberManagement: "ניהול ברברים",
+        barberManagement: "ניהול ספרים",
         backToManagement: "חזרה לניהול",
 
         // Dashboard
-        oldSchoolNewStyle: "סגנון חדש - מסורת ישנה",
-        experiencePrecision: "חוו את חיתוך השיער המדויק ושירותי הטיפוח ממומחים שמבינים את הסגנון שלך.",
+        oldSchoolNewStyle: "סגנון חדש - וייב ישן",
+        experiencePrecision: "תספורת שתשאיר אותך עם חיוך, לא רק עם שיער קצר.",
         bookYourAppointment: "הזמן תור",
         whyChooseUs: "למה לבחור בנו",
         expertBarbers: "ספרים מומחים",
         skilledProfessionals: "מקצוענים מיומנים עם שנים של ניסיון",
-        easyBooking: "הזמנה קלה",
-        bookOnline: "הזמן תור אונליין בכל זמן",
+        easyBooking: "הזמן בקלות",
+        bookOnline: "הזמן תור בכל זמן",
         flexibleHours: "שעות גמישות",
-        openSixDays: "פתוח 6 ימים בשבוע לנוחותך",
+        openSixDays: "פתוחים 5 ימים בשבוע",
         primeLocation: "מיקום מרכזי",
         easilyAccessible: "נגיש בקלות בלב העיר",
         readyForFreshLook: "מוכנים למראה חדש?",
@@ -111,9 +111,9 @@ export const translations = {
         confirmBooking: "אשר הזמנה",
         bookAppointment: "הזמן תור",
         appointmentBookedSuccess: "התור נקבע בהצלחה!",
-        failedToBook: "נכשל בקביעת התור. אנא נסה שוב.",
-        failedToLoad: "נכשל בטעינת השירותים והספרים. אנא נסה שוב מאוחר יותר.",
-        failedToLoadData: "נכשל בטעינת הנתונים. אנא רענן את הדף."
+        failedToBook: "משהו נכשל בקביעת התור. אנא נסה שוב.",
+        failedToLoad: "משהו נכשל בטעינת הנתונים. אנא נסה שוב מאוחר יותר.",
+        failedToLoadData: "משהו נכשל בטעינת הנתונים. אנא רענן את הדף."
     }
 };
 

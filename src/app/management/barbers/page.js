@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import { Barber } from '@/entities/Barber';
 import ManagementSection from '@/components/ManagementSection';
+import {getTranslations} from '@/translations';
+
+const t = getTranslations(true);
 
 export default function BarbersManagement() {
   const [barbers, setBarbers] = useState([]);
@@ -61,40 +64,30 @@ export default function BarbersManagement() {
   const barberFields = [
     {
       name: 'first_name',
-      label: 'First Name',
+      label: 'שם פרטי',
       required: true
     },
     {
       name: 'last_name',
-      label: 'Last Name',
+      label: 'שם משפחה',
       required: true
     },
     {
       name: 'phone_number',
-      label: 'Phone',
-      required: true
-    },
-    {
-      name: 'specialties',
-      label: 'Specialties (comma separated)',
+      label: 'טלפון',
       required: true
     },
     {
       name: 'working_hours',
-      label: 'Working Hours',
+      label: 'שעות עבודה',
       customComponent: 'WorkingHoursEditor'
     }
   ];
 
   const barberColumns = [
-    { field: 'firstName', headerName: 'First Name' },
-    { field: 'lastName', headerName: 'Last Name' },
-    { field: 'phone_number', headerName: 'Phone' },
-    { 
-      field: 'specialties', 
-      headerName: 'Specialties',
-      renderCell: (barber) => barber.specialties?.join(', ')
-    }
+    { field: 'firstName', headerName: 'שם פרטי', align: 'right'},
+    { field: 'lastName', headerName: 'שם משפחה', align: 'right' },
+    { field: 'phone_number', headerName: 'טלפון', align: 'right' },
   ];
 
   const initialFormData = {
@@ -115,7 +108,7 @@ export default function BarbersManagement() {
 
   return (
     <ManagementSection
-      title="Barber Management"
+      title={t.barberManagement}
       items={barbers}
       fields={barberFields}
       onAdd={handleAdd}
@@ -124,7 +117,7 @@ export default function BarbersManagement() {
       columns={barberColumns}
       getDetails={getBarberDetails}
       initialFormData={initialFormData}
-      dialogTitle="Barber"
+      dialogTitle="ספר"
     />
   );
 }

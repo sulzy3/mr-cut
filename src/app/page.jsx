@@ -93,18 +93,7 @@ export default function Home() {
             textAlign: 'center'
           }}
         >
-          Welcome to Mr. Cut
-        </Typography>
-        <Typography 
-          variant="subtitle1" 
-          sx={{ 
-            mt: 1,
-            mb: 3,
-            color: '#666',
-            textAlign: 'center'
-          }}
-        >
-          Your trusted barber service
+          MR. CUT
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
           {error && (
@@ -117,7 +106,7 @@ export default function Home() {
             required
             fullWidth
             id="phone_number"
-            label="Phone Number"
+            label="טלפון"
             name="phone_number"
             autoComplete="tel"
             autoFocus
@@ -147,7 +136,7 @@ export default function Home() {
             }}
             disabled={isLoading}
           >
-            {isLoading ? 'Signing in...' : 'Sign In'}
+            {isLoading ? 'מתחבר...' : 'התחבר'}
           </Button>
         </Box>
       </Box>

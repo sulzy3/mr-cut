@@ -21,8 +21,7 @@ export default function ManagementDialog({
       onClose={onClose} 
       maxWidth="sm" 
       fullWidth
-      fullScreen={isMobile}
-    >
+      fullScreen={isMobile}>
       <DialogTitle>
         {title}
       </DialogTitle>
@@ -77,10 +76,10 @@ export default function ManagementDialog({
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} size={isMobile ? "large" : "medium"}>
-            Cancel
+            ביטול
           </Button>
           <Button type="submit" variant="contained" size={isMobile ? "large" : "medium"}>
-            {title.includes('Edit') ? 'Update' : 'Create'}
+            {title.includes('ערוך') ? 'עדכן' : 'צור'}
           </Button>
         </DialogActions>
       </form>
