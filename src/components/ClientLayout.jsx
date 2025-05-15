@@ -82,7 +82,6 @@ export default function ClientLayout({ children, currentPageName }) {
       { name: t.management, href: "/management" },
       { name: t.serviceManagement, href: "/management/services" },
       { name: t.appointmentManagement, href: "/management/appointments" },
-      { name: t.customerManagement, href: "/management/customers" },
       { name: t.barberManagement, href: "/management/barbers" },
     ];
   }

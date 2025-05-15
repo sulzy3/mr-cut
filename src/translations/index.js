@@ -14,7 +14,6 @@ export const translations = {
         rights: "All rights reserved.",
         logout: "Logout",
         appointmentManagement: "Appointment Management",
-        customerManagement: "Customer Management",
         barberManagement: "Barber Management",
         backToManagement: "Back to Management",
 
@@ -72,7 +71,6 @@ export const translations = {
         rights: "כל הזכויות שמורות.",
         logout: "התנתק",
         appointmentManagement: "ניהול תורים",
-        customerManagement: "ניהול לקוחות",
         barberManagement: "ניהול ברברים",
         backToManagement: "חזרה לניהול",
 
