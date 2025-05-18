@@ -32,14 +32,14 @@ export default function AboutPage() {
           textAlign: 'center' 
         }}
       >
-        Our Location
+        המיקום שלנו
       </Typography>
 
       <Grid container spacing={4} justifyContent="center">
         <Grid item xs={12} sm={6} md={4}>
           <Card sx={{ height: 400, width: 312, mx: 'auto' }}>
             <CardHeader 
-              title="Address & Contact" 
+              title="כתובת וטלפון"
               sx={{ bgcolor: '#F5F1E6', textAlign: 'center' }}
             />
             <CardContent sx={{ height: 'calc(100% - 64px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -49,8 +49,8 @@ export default function AboutPage() {
                     <LocationOnIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
-                    primary="123 Barber Street"
-                    secondary="Cityville, ST 12345"
+                    primary="קנאי הגליל 9"
+                    secondary="ירושלים"
                     sx={{ textAlign: 'center' }}
                   />
                 </ListItem>
@@ -59,7 +59,7 @@ export default function AboutPage() {
                   <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
                     <PhoneIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
-                  <ListItemText primary="(555) 123-4567" sx={{ textAlign: 'center' }} />
+                  <ListItemText primary="053-7152798" sx={{ textAlign: 'center' }} />
                 </ListItem>
                 <Divider />
               </List>
@@ -70,7 +70,7 @@ export default function AboutPage() {
         <Grid item xs={12} sm={6} md={4}>
           <Card sx={{ height: 400, width: 312, mx: 'auto' }}>
             <CardHeader 
-              title="Parking Information" 
+              title="חניה"
               sx={{ bgcolor: '#F5F1E6', textAlign: 'center' }}
             />
             <CardContent sx={{ height: 'calc(100% - 64px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -80,30 +80,8 @@ export default function AboutPage() {
                     <DirectionsCarIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
-                    primary="Free Parking"
-                    secondary="Available in our private lot behind the building"
-                    sx={{ textAlign: 'center' }}
-                  />
-                </ListItem>
-                <Divider />
-                <ListItem sx={{ justifyContent: 'center' }}>
-                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
-                    <DirectionsCarIcon sx={{ color: '#2D5043' }} />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Street Parking"
-                    secondary="2-hour limit on Main Street"
-                    sx={{ textAlign: 'center' }}
-                  />
-                </ListItem>
-                <Divider />
-                <ListItem sx={{ justifyContent: 'center' }}>
-                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
-                    <DirectionsCarIcon sx={{ color: '#2D5043' }} />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Parking Garage"
-                    secondary="City Center Garage - 2 blocks away"
+                    primary="חניה חינם"
+                    secondary="חניה חינם ברחוב"
                     sx={{ textAlign: 'center' }}
                   />
                 </ListItem>
@@ -115,7 +93,7 @@ export default function AboutPage() {
         <Grid item xs={12} sm={6} md={4}>
           <Card sx={{ height: 400, width: 312, mx: 'auto' }}>
             <CardHeader 
-              title="Hours of Operation" 
+              title="שעות פעילות"
               sx={{ bgcolor: '#F5F1E6', textAlign: 'center' }}
             />
             <CardContent sx={{ height: 'calc(100% - 64px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -125,30 +103,8 @@ export default function AboutPage() {
                     <AccessTimeIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
-                    primary="Monday - Friday"
-                    secondary="9:00 AM - 8:00 PM"
-                    sx={{ textAlign: 'center' }}
-                  />
-                </ListItem>
-                <Divider />
-                <ListItem sx={{ justifyContent: 'center' }}>
-                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
-                    <AccessTimeIcon sx={{ color: '#2D5043' }} />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Saturday"
-                    secondary="9:00 AM - 6:00 PM"
-                    sx={{ textAlign: 'center' }}
-                  />
-                </ListItem>
-                <Divider />
-                <ListItem sx={{ justifyContent: 'center' }}>
-                  <ListItemIcon sx={{ minWidth: 0, mr: 2 }}>
-                    <AccessTimeIcon sx={{ color: '#2D5043' }} />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Sunday"
-                    secondary="Closed"
+                    primary="ראשון עד חמישי"
+                    secondary="09:00 - 20:00"
                     sx={{ textAlign: 'center' }}
                   />
                 </ListItem>

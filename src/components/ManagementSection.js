@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Typography, 
-  Button, 
-  Paper, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow,
+import {useState} from 'react';
+import {
+  Box,
+  Button,
   Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
   useMediaQuery,
   useTheme
 } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import {Add} from '@mui/icons-material';
 import ManagementCard from './ManagementCard';
 import ManagementDialog from './ManagementDialog';
 import WorkingHoursEditor from './WorkingHoursEditor';
@@ -39,6 +39,7 @@ export default function ManagementSection({
   const [formData, setFormData] = useState(initialFormData);
 
   const handleOpenDialog = (item = null) => {
+    console.log(item)
     if (item) {
       setEditingItem(item);
       setFormData(item);
@@ -106,7 +107,7 @@ export default function ManagementSection({
                 {column.headerName}
               </TableCell>
             ))}
-            <TableCell align="right">Actions</TableCell>
+            <TableCell align="right">פעולות</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -118,8 +119,8 @@ export default function ManagementSection({
                 </TableCell>
               ))}
               <TableCell align="right">
-                <Button onClick={() => handleOpenDialog(item)}>Edit</Button>
-                <Button onClick={() => onDelete(item.id)}>Delete</Button>
+                <Button onClick={() => handleOpenDialog(item)}>ערוך</Button>
+                <Button onClick={() => onDelete(item.id)}>מחק</Button>
               </TableCell>
             </TableRow>
           ))}
@@ -135,12 +136,10 @@ export default function ManagementSection({
           {title}
         </Typography>
         {!isMobile && (
-          <Button
-            variant="contained"
-            startIcon={<Add />}
-            onClick={() => handleOpenDialog()}
-          >
-            Add New
+          <Button variant="contained"
+            onClick={() => handleOpenDialog()}>
+            <Add />
+            הוסף
           </Button>
         )}
       </Box>
@@ -158,14 +157,14 @@ export default function ManagementSection({
             right: 16,
           }}
         >
-          Add New
+          הוסף
         </Button>
       )}
 
       <ManagementDialog
         open={openDialog}
         onClose={handleCloseDialog}
-        title={editingItem ? `Edit ${dialogTitle}` : dialogTitle}
+        title={editingItem ? `ערוך ${dialogTitle}` : `הוסף ${dialogTitle}`}
         formData={formData}
         onFormChange={handleFormChange}
         onSubmit={handleSubmit}

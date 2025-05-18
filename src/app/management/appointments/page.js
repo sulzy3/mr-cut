@@ -6,10 +6,15 @@ import Cookies from "js-cookie";
 import { Appointment } from "@/entities/Appointment";
 import ManagementSection from "@/components/ManagementSection";
 import { format } from "date-fns";
+import {Service} from '@/entities/Service';
+import {getTranslations} from '@/translations';
+
+const t = getTranslations(true);
 
 export default function AppointmentsManagementPage() {
   const router = useRouter();
   const [appointments, setAppointments] = useState([]);
+  const [services, setServices] = useState([]);
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0]
@@ -17,9 +22,7 @@ export default function AppointmentsManagementPage() {
 
   const loadAppointments = useCallback(async () => {
     try {
-      const userData = JSON.parse(Cookies.get("userData"));
       const appointmentsList = await Appointment.getAll({
-        barberId: userData.id,
         date: selectedDate,
       });
       setAppointments(appointmentsList);
@@ -28,6 +31,15 @@ export default function AppointmentsManagementPage() {
       setError("Failed to load appointments");
     }
   }, [selectedDate]);
+
+  const loadServices = async () => {
+    try {
+      const servicesList = await Service.getAll();
+      setServices(servicesList?.map((service)=>({value: service.id, label: service.name})));
+    } catch (error) {
+      setError('Failed to load services');
+    }
+  };
 
   useEffect(() => {
     const userData = Cookies.get("userData");
@@ -43,6 +55,7 @@ export default function AppointmentsManagementPage() {
     }
 
     loadAppointments();
+    loadServices();
   }, [loadAppointments, router]);
 
   const handleDateChange = (event) => {
@@ -51,7 +64,7 @@ export default function AppointmentsManagementPage() {
 
   const handleAdd = async (formData) => {
     try {
-      await Appointment.create(formData);
+      await new Appointment(formData).save();
       await loadAppointments();
     } catch (error) {
       setError("Failed to save appointment");
@@ -60,7 +73,7 @@ export default function AppointmentsManagementPage() {
 
   const handleEdit = async (id, formData) => {
     try {
-      await Appointment.update(id, formData);
+      await new Appointment({ ...formData, id }).save();
       await loadAppointments();
     } catch (error) {
       setError("Failed to update appointment");
@@ -70,7 +83,7 @@ export default function AppointmentsManagementPage() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this appointment?")) {
       try {
-        await Appointment.delete(id);
+        await new Appointment({ id }).delete();
         await loadAppointments();
       } catch (error) {
         setError("Failed to delete appointment");
@@ -79,42 +92,41 @@ export default function AppointmentsManagementPage() {
   };
 
   const getAppointmentDetails = (appointment) => {
-    console.log("appinsmeL:", appointment);
     return [
       {
-        label: "Appointment Time",
+        label: "זמן תור",
         value: format(
           new Date(`${appointment.date.split("T")[0]}T${appointment.time}`),
           "h:mm a"
         ),
       },
       {
-        label: "Barber",
+        label: "ספר",
         value: appointment.barber?.firstName 
           ? `${appointment.barber.firstName} ${appointment.barber.lastName}`
-          : "N/A",
+          : "לא ידוע",
       },
       {
-        label: "Service",
-        value: appointment.service?.name || "N/A",
+        label: "שירות",
+        value: appointment.service?.name || "לא ידוע",
       },
       {
-        label: "Duration",
+        label: "זמן",
         value: appointment.service?.duration_minutes 
           ? `${appointment.service.duration_minutes} minutes`
-          : "N/A",
+          : "לא ידוע",
       },
       {
-        label: "Price",
+        label: "מחיר",
         value: appointment.service?.price 
-          ? `$${appointment.service.price}`
-          : "N/A",
+          ? `₪${appointment.service.price}`
+          : "לא ידוע",
       },
       {
-        label: "Status",
+        label: "סטטוס",
         value: appointment.status 
           ? appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)
-          : "N/A",
+          : "לא ידוע",
       }
     ];
   };
@@ -122,77 +134,72 @@ export default function AppointmentsManagementPage() {
   const appointmentFields = [
     {
       name: "date",
-      label: "Date",
+      label: "תאריך",
       type: "date",
       required: true,
     },
     {
       name: "time",
-      label: "Time",
+      label: "שעה",
       type: "time",
       required: true,
     },
     {
-      name: "service_id",
-      label: "Service",
+      name: "serviceId",
+      label: "שירות",
       type: "select",
       required: true,
-      options: [], // This should be populated with available services
+      options: services, // This should be populated with available services
     },
   ];
 
   const appointmentColumns = [
     {
       field: "dateTime",
-      headerName: "Date & Time",
+      headerName: "תאריך ושעה",
+      align: "right",
       valueGetter: (params) => {
         const appointment = params.row;
         return format(
-          new Date(`${appointment.date.split("T")[0]}T${appointment.time}`),
-          "PPp"
+          new Date(`${appointment.date}T${appointment.time}`),
+          "d/MM/yyyy HH:mm"
         );
       },
     },
     {
       field: "service",
-      headerName: "Service",
+      headerName: "שירות",
+      align: "right",
       valueGetter: (params) => {
         const service = params.row.service;
-        return service?.name || "N/A";
+        return service?.name || "לא ידוע";
       },
     },
     {
       field: "price",
-      headerName: "Price",
+      headerName: "מחיר",
       valueGetter: (params) => {
         const service = params.row.service;
-        return service?.price ? `$${service.price}` : "N/A";
+        return service?.price ? `₪${service.price}` : "לא ידוע";
       },
       align: "right",
     },
     {
       field: "duration",
-      headerName: "Duration",
+      headerName: "זמן",
       valueGetter: (params) => {
         const service = params.row.service;
-        return service?.duration_minutes ? `${service.duration_minutes} min` : "N/A";
+        return service?.duration_minutes ? `${service.duration_minutes} דקות` : "לא ידוע";
       },
       align: "right",
     },
     {
       field: "barber",
-      headerName: "Barber",
+      headerName: "ספר",
+      align: "right",
       valueGetter: (params) => {
         const barber = params.row.barber;
-        return barber?.firstName ? `${barber.firstName} ${barber.lastName}` : "N/A";
-      },
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      valueGetter: (params) => {
-        const status = params.row.status;
-        return status ? status.charAt(0).toUpperCase() + status.slice(1) : "N/A";
+        return barber?.firstName ? `${barber.firstName} ${barber.lastName}` : "לא ידוע";
       },
     },
   ];
@@ -200,14 +207,13 @@ export default function AppointmentsManagementPage() {
   const initialFormData = {
     date: selectedDate,
     time: "",
-    service_id: "",
-    barber_id: JSON.parse(Cookies.get("userData"))?.id || "",
+    serviceId: "",
   };
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Appointment Management</h1>
+        <h1 className="text-2xl font-bold">{t.appointmentManagement}</h1>
         <div className="flex items-center space-x-4">
           <label htmlFor="date" className="text-sm font-medium text-gray-700">
             Select Date:
@@ -223,21 +229,8 @@ export default function AppointmentsManagementPage() {
       </div>
 
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+        <div style={{color:'red'}}>
           <div className="flex">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-5 w-5 text-red-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
             <div className="ml-3">
               <p className="text-sm text-red-700">{error}</p>
             </div>
@@ -248,23 +241,10 @@ export default function AppointmentsManagementPage() {
       {!error && appointments.length === 0 && (
         <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
           <div className="flex">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-5 w-5 text-blue-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
             <div className="ml-3">
               <p className="text-sm text-blue-700">
-                No appointments scheduled for{" "}
-                {format(new Date(selectedDate), "MMMM d, yyyy")}
+                אין תורים בתאריך{" "}
+                {format(new Date(selectedDate), "d/MM/yyyy")}
               </p>
             </div>
           </div>
@@ -281,7 +261,7 @@ export default function AppointmentsManagementPage() {
         columns={appointmentColumns}
         getDetails={getAppointmentDetails}
         initialFormData={initialFormData}
-        dialogTitle="Appointment"
+        dialogTitle="תור"
       />
     </div>
   );

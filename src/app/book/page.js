@@ -203,7 +203,7 @@ export default function BookPage() {
                                             key={service.id}
                                             value={service.id}
                                             control={<Radio/>}
-                                            label={`${service.name} - $${service.price}`}
+                                            label={`${service.name} - ₪${service.price}`}
                                         />
                                     ))}
                                 </RadioGroup>

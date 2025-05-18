@@ -17,7 +17,7 @@ const AvailableSlotsCard = ({barberId, selectedDate, onSlotSelect, serviceDurati
     const [nextWorkingDay, setNextWorkingDay] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedSlot, setSelectedSlot] = useState(null);
-    const [existingAppointments, setExistingAppointments] = useState([]);
+    const [_, setExistingAppointments] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -112,7 +112,7 @@ const AvailableSlotsCard = ({barberId, selectedDate, onSlotSelect, serviceDurati
         return (
             <Card className="mb-6">
                 <CardContent>
-                    <Typography>Please select a barber first</Typography>
+                    <Typography>* עליך לבחור ספר</Typography>
                 </CardContent>
             </Card>
         );
@@ -121,7 +121,7 @@ const AvailableSlotsCard = ({barberId, selectedDate, onSlotSelect, serviceDurati
     return (
         <Card className="mb-6">
             <CardHeader
-                title={selectedDate ? "Available Time Slots" : "Next Available Day"}
+                title={selectedDate ? "זמנים פנויים" : ""}
             />
             <CardContent>
                 {loading ? (

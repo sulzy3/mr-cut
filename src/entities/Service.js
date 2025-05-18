@@ -3,8 +3,8 @@ export class Service {
     this.id = data.id;
     this.name = data.name;
     this.description = data.description;
-    this.price = data.price;
-    this.duration_minutes = data.duration_minutes; // in minutes
+    this.price = parseInt(data.price);
+    this.duration_minutes = parseInt(data.duration_minutes); // in minutes
   }
 
   static async getAll() {

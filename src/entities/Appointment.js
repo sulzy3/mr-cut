@@ -11,14 +11,16 @@ export class Appointment {
     // } else {
     //   this.dateTime = new Date().toISOString(); // Fallback to current time
     // }
-    this.date = data.date;
+    this.date = data.date.split("T")[0];
     this.time = data.time;
-    this.serviceId = data.serviceId;
-    this.barberId = data.barberId;
+    this.serviceId = data.service?.id ?? data.serviceId;
+    this.barberId = data.barber?.id ?? data.barberId;
     this.status = data.status;
     // Preserve nested data
     this.service = data.service;
     this.barber = data.barber;
+
+    console.log(this)
   }
 
   static async getAll({ barberId, date } = {}) {
@@ -55,7 +57,7 @@ export class Appointment {
       const url = this.id ? `/api/appointments/${this.id}` : '/api/appointments';
 
       const now  = new Date().toISOString();
-      
+
       const response = await fetch(url, {
         method,
         headers: {
@@ -68,11 +70,13 @@ export class Appointment {
           time: this.time,
           service_id: this.serviceId,
           barber_id: this.barberId,
-          status: 'pending',
+          status: 'מאושר',
           created_at: now,
           updated_at: now,
         }),
       });
+
+      console.log(url)
 
       if (!response.ok) throw new Error('Failed to save appointment');
       const data = await response.json();

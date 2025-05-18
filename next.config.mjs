@@ -23,8 +23,7 @@ const nextConfig = {
     ],
   },
   env: {
-    DATABASE_URL: process.env.DATABASE_URL || 'postgres://neondb_owner:npg_8eruKvscO9dB@ep-twilight-art-a2s6af2z-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require',
-    DIRECT_URL: process.env.DIRECT_URL || 'postgresql://neondb_owner:npg_8eruKvscO9dB@ep-twilight-art-a2s6af2z.eu-central-1.aws.neon.tech/neondb?sslmode=require',
+    POSTGRES_URL: process.env.POSTGRES_URL,
   },
   webpack: (config) => {
     config.resolve.alias = {
