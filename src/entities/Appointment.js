@@ -19,8 +19,6 @@ export class Appointment {
     // Preserve nested data
     this.service = data.service;
     this.barber = data.barber;
-
-    console.log(this)
   }
 
   static async getAll({ barberId, date } = {}) {
@@ -75,8 +73,6 @@ export class Appointment {
           updated_at: now,
         }),
       });
-
-      console.log(url)
 
       if (!response.ok) throw new Error('Failed to save appointment');
       const data = await response.json();

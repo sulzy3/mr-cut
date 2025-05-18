@@ -1,123 +1,147 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Barber } from '@/entities/Barber';
+import React, {useEffect, useState} from 'react';
+import {Barber} from '@/entities/Barber';
 import ManagementSection from '@/components/ManagementSection';
 import {getTranslations} from '@/translations';
+import {Alert, Snackbar} from '@mui/material';
 
 const t = getTranslations(true);
 
 export default function BarbersManagement() {
-  const [barbers, setBarbers] = useState([]);
-  const [error, setError] = useState(null);
+    const [barbers, setBarbers] = useState([]);
+    const [snackbar, setSnackbar] = useState({open: false, message: "", severity: "success"});
 
-  useEffect(() => {
-    loadBarbers();
-  }, []);
+    useEffect(() => {
+        loadBarbers();
+    }, []);
 
-  const loadBarbers = async () => {
-    try {
-      const barbersList = await Barber.getAll();
-      setBarbers(barbersList);
-    } catch (error) {
-      setError('Failed to load barbers');
-    }
-  };
+    const loadBarbers = async () => {
+        try {
+            const barbersList = await Barber.getAll();
+            setBarbers(barbersList);
+        } catch (error) {
+            setError('Failed to load barbers');
+        }
+    };
 
-  const handleAdd = async (formData) => {
-    try {
-      const barber = new Barber(formData);
-      await barber.save();
-      await loadBarbers();
-    } catch (error) {
-      setError('Failed to save barber');
-    }
-  };
+    const handleAdd = async (formData) => {
+        try {
+            const barber = new Barber(formData);
+            await barber.save();
+            await loadBarbers();
+        } catch (error) {
+            setSnackbar({
+                open: true,
+                message: error.message === 'user already exists' ? 'מספר טלפון זה כבר במערכת!' : 'קרתה שגיאה בהוספת ספר',
+                severity: "error"
+            });
+        }
+    };
 
-  const handleEdit = async (id, formData) => {
-    try {
-      const barber = new Barber({ ...formData, id });
-      await barber.update();
-      await loadBarbers();
-    } catch (error) {
-      setError('Failed to update barber');
-    }
-  };
+    const handleEdit = async (id, formData) => {
+        try {
+            const barber = new Barber({...formData, id});
+            await barber.save();
+            await loadBarbers();
+        } catch (error) {
+            setSnackbar({
+                open: true,
+                message: 'Failed to update barber',
+                severity: "error"
+            });
+        }
+    };
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this barber?')) {
-      try {
-        const barber = new Barber({ id });
-        await barber.delete();
-        await loadBarbers();
-      } catch (error) {
-        setError('Failed to delete barber');
-      }
-    }
-  };
+    const handleDelete = async (id) => {
+        if (window.confirm('Are you sure you want to delete this barber?')) {
+            try {
+                const barber = new Barber({id});
+                await barber.delete();
+                await loadBarbers();
+            } catch (error) {
+                setSnackbar({
+                    open: true,
+                    message: 'Failed to delete barber',
+                    severity: "error"
+                });
+            }
+        }
+    };
 
-  const getBarberDetails = (barber) => [
-    { label: 'Phone', value: barber.phone_number },
-    { label: 'Specialties', value: barber.specialties?.join(', ') }
-  ];
+    const getBarberDetails = (barber) => [
+        {label: 'Phone', value: barber.phone_number},
+        {label: 'Specialties', value: barber.specialties?.join(', ')}
+    ];
 
-  const barberFields = [
-    {
-      name: 'first_name',
-      label: 'שם פרטי',
-      required: true
-    },
-    {
-      name: 'last_name',
-      label: 'שם משפחה',
-      required: true
-    },
-    {
-      name: 'phone_number',
-      label: 'טלפון',
-      required: true
-    },
-    {
-      name: 'working_hours',
-      label: 'שעות עבודה',
-      customComponent: 'WorkingHoursEditor'
-    }
-  ];
+    const barberFields = [
+        {
+            name: 'firstName',
+            label: 'שם פרטי',
+            required: true
+        },
+        {
+            name: 'lastName',
+            label: 'שם משפחה',
+            required: true
+        },
+        {
+            name: 'phoneNumber',
+            label: 'טלפון',
+            required: true
+        },
+        {
+            name: 'workingHours',
+            label: 'שעות עבודה',
+            customComponent: 'WorkingHoursEditor'
+        }
+    ];
 
-  const barberColumns = [
-    { field: 'firstName', headerName: 'שם פרטי', align: 'right'},
-    { field: 'lastName', headerName: 'שם משפחה', align: 'right' },
-    { field: 'phone_number', headerName: 'טלפון', align: 'right' },
-  ];
+    const barberColumns = [
+        {field: 'firstName', headerName: 'שם פרטי', align: 'right'},
+        {field: 'lastName', headerName: 'שם משפחה', align: 'right'},
+        {field: 'phoneNumber', headerName: 'טלפון', align: 'right'},
+    ];
 
-  const initialFormData = {
-    first_name: '',
-    last_name: '',
-    phone_number: '',
-    specialties: '',
-    working_hours: {
-      monday: { start: '09:00', end: '17:00' },
-      tuesday: { start: '09:00', end: '17:00' },
-      wednesday: { start: '09:00', end: '17:00' },
-      thursday: { start: '09:00', end: '17:00' },
-      friday: { start: '09:00', end: '17:00' },
-      saturday: { start: '09:00', end: '17:00' },
-      sunday: { start: '09:00', end: '17:00' }
-    }
-  };
+    const initialFormData = {
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        specialties: '',
+        workingHours: {
+            sunday: {start: '09:00', end: '17:00'},
+            monday: {start: '09:00', end: '17:00'},
+            tuesday: {start: '09:00', end: '17:00'},
+            wednesday: {start: '09:00', end: '17:00'},
+            thursday: {start: '09:00', end: '17:00'},
+            friday: {start: '09:00', end: '17:00'},
+        }
+    };
 
-  return (
-    <ManagementSection
-      title={t.barberManagement}
-      items={barbers}
-      fields={barberFields}
-      onAdd={handleAdd}
-      onEdit={handleEdit}
-      onDelete={handleDelete}
-      columns={barberColumns}
-      getDetails={getBarberDetails}
-      initialFormData={initialFormData}
-      dialogTitle="ספר"
-    />
-  );
+    return (
+        <>
+            <ManagementSection
+                title={t.barberManagement}
+                items={barbers}
+                fields={barberFields}
+                onAdd={handleAdd}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                columns={barberColumns}
+                getDetails={getBarberDetails}
+                initialFormData={initialFormData}
+                dialogTitle="ספר"
+            />
+
+            <Snackbar open={snackbar.open}
+                      autoHideDuration={6000}
+                      onClose={() => setSnackbar({...snackbar, open: false})}>
+                <Alert onClose={() => setSnackbar({...snackbar, open: false})}
+                       severity={snackbar.severity}
+                       sx={{width: '100%'}}>
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
+        </>
+    );
 }

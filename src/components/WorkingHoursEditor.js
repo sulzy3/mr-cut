@@ -5,6 +5,9 @@ export default function WorkingHoursEditor({
   onChange,
   isMobile = false
 }) {
+  if(!workingHours)
+    return null;
+
   const days = [
     { key: 'sunday', label: 'ראשון' },
     { key: 'monday', label: 'שני' },
