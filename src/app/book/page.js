@@ -32,7 +32,7 @@ import Cookies from "js-cookie";
 import { getTranslations } from "@/translations";
 
 export default function BookPage() {
-    const isHebrew = Cookies.get("langPref") === "hebrew";
+    const isHebrew = true;
     const t = getTranslations(isHebrew);
 
     const [services, setServices] = useState([]);

@@ -35,7 +35,7 @@ export default function ClientLayout({ children, currentPageName }) {
 
   useEffect(() => {
     const userData = Cookies.get("userData");
-    const langPref = Cookies.get("langPref");
+    // const langPref = Cookies.get("langPref");
     
     if (!userData && window.location.pathname !== "/") {
       router.push("/");
@@ -48,7 +48,7 @@ export default function ClientLayout({ children, currentPageName }) {
         setCurrentUser(parsedUserData);
       }
       // Set language preference from cookie or default to false
-      setIsHebrew(langPref === "hebrew");
+      // setIsHebrew(langPref === "hebrew");
     } catch (error) {
       console.error("Error parsing user data:", error);
       router.push("/");
