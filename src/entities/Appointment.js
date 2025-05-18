@@ -11,13 +11,14 @@ export class Appointment {
     // } else {
     //   this.dateTime = new Date().toISOString(); // Fallback to current time
     // }
-    this.date = data.date.split("T")[0];
+    this.date = data.date?.split("T")[0];
     this.time = data.time;
     this.serviceId = data.service?.id ?? data.serviceId;
     this.barberId = data.barber?.id ?? data.barberId;
     this.status = data.status;
     // Preserve nested data
     this.service = data.service;
+
     this.barber = data.barber;
   }
 
@@ -26,7 +27,7 @@ export class Appointment {
       const url = new URL('/api/appointments', window.location.origin);
       if (barberId) url.searchParams.append('barberId', barberId);
       if (date) url.searchParams.append('date', date);
-      
+
       const response = await fetch(url);
       if (!response.ok) throw new Error('Failed to fetch appointments');
       const data = await response.json();
@@ -54,7 +55,7 @@ export class Appointment {
       const method = this.id ? 'PUT' : 'POST';
       const url = this.id ? `/api/appointments/${this.id}` : '/api/appointments';
 
-      const now  = new Date().toISOString();
+      const now = new Date().toISOString();
 
       const response = await fetch(url, {
         method,
@@ -62,8 +63,7 @@ export class Appointment {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          // customer_name: this.customerName,
-          id: `${this.customerPhone}-${this.barberId}-${this.date}`,
+          // id: `${this.customerPhone}-${this.barberId}-${this.date}`,
           date: this.date,
           time: this.time,
           service_id: this.serviceId,
@@ -74,7 +74,10 @@ export class Appointment {
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to save appointment');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save appointment');
+      }
       const data = await response.json();
       return new Appointment(data);
     } catch (error) {
@@ -84,6 +87,7 @@ export class Appointment {
   }
 
   async delete() {
+    console.log('inside')
     try {
       const response = await fetch(`/api/appointments/${this.id}`, {
         method: 'DELETE',
