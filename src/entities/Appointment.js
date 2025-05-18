@@ -54,7 +54,7 @@ export class Appointment {
       const method = this.id ? 'PUT' : 'POST';
       const url = this.id ? `/api/appointments/${this.id}` : '/api/appointments';
 
-      const now  = new Date().toISOString();
+      const now = new Date().toISOString();
       
       const response = await fetch(url, {
         method,
@@ -62,19 +62,22 @@ export class Appointment {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          // customer_name: this.customerName,
-          id: `${this.customerPhone}-${this.barberId}-${this.date}`,
-          date: this.date,
-          time: this.time,
-          service_id: this.serviceId,
+          customer_name: this.customerName,
+          customer_phone: this.customerPhone,
           barber_id: this.barberId,
-          status: 'pending',
+          service_id: this.serviceId,
+          date: new Date(this.date).toISOString(),
+          time: this.time,
+          status: 'PENDING',
           created_at: now,
           updated_at: now,
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to save appointment');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save appointment');
+      }
       const data = await response.json();
       return new Appointment(data);
     } catch (error) {
