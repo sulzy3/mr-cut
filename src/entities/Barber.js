@@ -3,18 +3,10 @@ export class Barber {
     this.id = data.id;
     this.firstName = data.first_name || data.firstName;
     this.lastName = data.last_name || data.lastName;
-    this.phone_number = data.phone_number;
+    this.phoneNumber = data.phone_number || data.phoneNumber;
     this.specialties = data.specialties || [];
-    this.working_hours = data.working_hours || {
-      monday: { start: '09:00', end: '17:00' },
-      tuesday: { start: '09:00', end: '17:00' },
-      wednesday: { start: '09:00', end: '17:00' },
-      thursday: { start: '09:00', end: '17:00' },
-      friday: { start: '09:00', end: '17:00' },
-      saturday: { start: '09:00', end: '17:00' },
-      sunday: { start: '09:00', end: '17:00' }
-    };
-    this.photo_url = data.photo_url;
+    this.workingHours = data.workingHours;
+
     this.bio = data.bio;
   }
 
@@ -27,10 +19,9 @@ export class Barber {
       id: this.id,
       first_name: this.firstName,
       last_name: this.lastName,
-      phone_number: this.phone_number,
+      phone_number: this.phoneNumber,
       specialties: this.specialties,
-      working_hours: this.working_hours,
-      photo_url: this.photo_url,
+      working_hours: this.workingHours,
       bio: this.bio
     };
   }
@@ -38,12 +29,11 @@ export class Barber {
   static fromJSON(json) {
     return new Barber({
       id: json.id,
-      first_name: json.firstName,
-      last_name: json.lastName,
-      phone_number: json.phone_number,
+      firstName: json.firstName,
+      lastName: json.lastName,
+      phoneNumber: json.phone_number,
       specialties: json.specialties,
-      working_hours: json.working_hours,
-      photo_url: json.photo_url,
+      workingHours: json.workingHours,
       bio: json.bio
     });
   }
@@ -73,10 +63,9 @@ export class Barber {
   }
 
   async save() {
-    try {
       const method = this.id ? 'PUT' : 'POST';
       const url = this.id ? `/api/barbers/${this.id}` : '/api/barbers';
-      
+
       const response = await fetch(url, {
         method,
         headers: {
@@ -85,21 +74,18 @@ export class Barber {
         body: JSON.stringify({
           first_name: this.firstName,
           last_name: this.lastName,
-          phone_number: this.phone_number,
+          phone_number: this.phoneNumber,
           specialties: this.specialties,
-          working_hours: this.working_hours,
-          photo_url: this.photo_url,
+          working_hours: this.workingHours,
           bio: this.bio,
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to save barber');
       const data = await response.json();
+
+      if (!response.ok) throw new Error(data.error);
+
       return new Barber(data);
-    } catch (error) {
-      console.error('Error saving barber:', error);
-      throw error;
-    }
   }
 
   async delete() {

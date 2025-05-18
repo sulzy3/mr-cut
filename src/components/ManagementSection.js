@@ -39,7 +39,6 @@ export default function ManagementSection({
   const [formData, setFormData] = useState(initialFormData);
 
   const handleOpenDialog = (item = null) => {
-    console.log(item)
     if (item) {
       setEditingItem(item);
       setFormData(item);
