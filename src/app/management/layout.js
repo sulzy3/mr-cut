@@ -10,7 +10,7 @@ import {getTranslations} from '@/translations';
 export default function ManagementLayout({ children }) {
   const router = useRouter();
   const pathname = usePathname();
-  const isHebrew = Cookies.get("langPref") === "hebrew";
+  const isHebrew = true;
   const t = getTranslations(isHebrew);
 
   // Check if we're in a subfolder of management
@@ -41,8 +41,7 @@ export default function ManagementLayout({ children }) {
                 '&:hover': {
                   bgcolor: 'rgba(45, 80, 67, 0.1)',
                 },
-              }}
-            >
+              }}>
               <ArrowRight />
               {t.backToManagement}
             </Button>

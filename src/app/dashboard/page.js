@@ -6,11 +6,10 @@ import Image from 'next/image';
 import {createPageUrl} from '@/utils';
 import {Box, Button, Card, CardContent, Container, Grid, Stack, Typography} from '@mui/material';
 import {Calendar, Clock, MapPin, Scissors} from 'lucide-react';
-import Cookies from 'js-cookie';
 import {getTranslations} from '@/translations';
 
 export default function DashboardPage() {
-  const isHebrew = Cookies.get("langPref") === "hebrew";
+  const isHebrew = true;
   const t = getTranslations(isHebrew);
 
   return (
