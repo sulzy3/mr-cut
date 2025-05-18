@@ -160,6 +160,7 @@ export default function AppointmentsManagementPage() {
       align: "right",
       valueGetter: (params) => {
         const appointment = params.row;
+
         return format(
           new Date(`${appointment.date}T${appointment.time}`),
           "d/MM/yyyy HH:mm"

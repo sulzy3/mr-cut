@@ -53,10 +53,11 @@ export async function GET(request) {
 export async function POST(request) {
     try {
         const data = await request.json();
+
         // Check if the appointment slot is available
 
         const isAvailable = await appointmentService.checkAvailability(
-            data.barberId,
+            data.barber_id,
             data.date,
             data.time
         );
@@ -68,9 +69,36 @@ export async function POST(request) {
             );
         }
 
-        const result = await appointmentService.create(data);
-        return NextResponse.json(result.rows[0], {status: 201});
+        // Create the appointment using Prisma
+        const appointment = await prisma.appointment.create({
+            data: {
+                barber_id: data.barber_id,
+                service_id: data.service_id,
+                date: new Date(data.date),
+                time: data.time,
+                status: data.status || 'PENDING',
+            },
+            include: {
+                service: true,
+                barber: {
+                    include: {
+                        user: {
+                            select: {
+                                firstName: true,
+                                lastName: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        return NextResponse.json(appointment, {status: 201});
     } catch (error) {
-        return NextResponse.json({error: 'Failed to create appointment'}, {status: 500});
+        console.error('Error creating appointment:', error);
+        return NextResponse.json(
+            {error: 'Failed to create appointment: ' + error.message},
+            {status: 500}
+        );
     }
 } 
