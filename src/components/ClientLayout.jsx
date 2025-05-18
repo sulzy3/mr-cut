@@ -1,28 +1,27 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, LogOut } from "lucide-react";
-import { 
-  Button, 
-  AppBar, 
-  Toolbar, 
-  IconButton, 
-  Box, 
-  Container, 
-  Drawer, 
-  List, 
-  ListItem, 
+import {LogOut, Menu, X} from "lucide-react";
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
   ListItemText,
+  Toolbar,
   Typography,
-  useTheme,
-  useMediaQuery
+  useMediaQuery,
+  useTheme
 } from "@mui/material";
-import LanguageToggle from "@/components/LanguageToggle.jsx";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
-import { getTranslations } from "@/translations";
+import {useRouter} from "next/navigation";
+import {getTranslations} from "@/translations";
 
 export default function ClientLayout({ children, currentPageName }) {
   const router = useRouter();
@@ -30,7 +29,7 @@ export default function ClientLayout({ children, currentPageName }) {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [isHebrew, setIsHebrew] = useState(true);
+  const [isHebrew] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -56,10 +55,10 @@ export default function ClientLayout({ children, currentPageName }) {
     setIsLoading(false);
   }, [router]);
 
-  // Add effect to update language preference cookie
-  useEffect(() => {
-    Cookies.set("langPref", isHebrew ? "hebrew" : "english");
-  }, [isHebrew]);
+  // // Add effect to update language preference cookie
+  // useEffect(() => {
+  //   Cookies.set("langPref", isHebrew ? "hebrew" : "english");
+  // }, [isHebrew]);
 
   const handleLogout = () => {
     Cookies.remove("userData");
@@ -171,7 +170,7 @@ export default function ClientLayout({ children, currentPageName }) {
 
           {isMobile && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <LanguageToggle isHebrew={isHebrew} setIsHebrew={setIsHebrew} />
+              {/*<LanguageToggle isHebrew={isHebrew} setIsHebrew={setIsHebrew} />*/}
               <IconButton
                 color="inherit"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -299,7 +298,6 @@ export default function ClientLayout({ children, currentPageName }) {
             </ListItem>
           ))}
           <ListItem
-            button
             onClick={() => {
               handleLogout();
               setMobileMenuOpen(false);
