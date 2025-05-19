@@ -94,6 +94,8 @@ export default function BookPage() {
             setIsLoading(true);
 
             const appointment = new Appointment({
+                clientName: name,
+                clientPhoneNumber: phone,
                 serviceId: selectedServiceId,
                 barberId: selectedBarber,
                 date: selectedDate,
@@ -271,7 +273,7 @@ export default function BookPage() {
                                     <strong>{t.service}:</strong> {selectedService?.name}
                                 </Typography>
                                 <Typography>
-                                    <strong>{t.price}:</strong> ${selectedService?.price}
+                                    <strong>{t.price}:</strong> ₪{selectedService?.price}
                                 </Typography>
                                 <Typography>
                                     <strong>{t.barber}:</strong> {getSelectedBarber()?.firstName}{" "}

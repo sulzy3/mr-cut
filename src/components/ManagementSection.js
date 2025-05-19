@@ -84,7 +84,6 @@ export default function ManagementSection({
           <Grid item xs={12} key={item.id}>
             <ManagementCard
               title={columns[0].valueGetter ? columns[0].valueGetter({ row: item }) : item[columns[0].field]}
-              description={columns[1]?.valueGetter ? columns[1].valueGetter({ row: item }) : item[columns[1]?.field]}
               details={getDetails(item)}
               onEdit={() => handleOpenDialog(item)}
               onDelete={() => onDelete(item.id)}
