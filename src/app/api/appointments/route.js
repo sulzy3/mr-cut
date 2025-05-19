@@ -54,9 +54,9 @@ export async function POST(request) {
     try {
         const data = await request.json();
 
-        const {barber_id, service_id, date, time, status} = data;
+        const {client_name, client_phone_number, barber_id, service_id, date, time, status} = data;
 
-        if(!(barber_id && service_id && date && time)){
+        if(!(client_name && client_phone_number && barber_id && service_id && date && time)){
             return NextResponse.json(
                 {error: 'Missing appointment details'},
                 {status: 400}
@@ -81,6 +81,8 @@ export async function POST(request) {
         // Create the appointment using Prisma
         const appointment = await prisma.appointment.create({
             data: {
+                client_name,
+                client_phone_number,
                 barber_id,
                 service_id,
                 date: new Date(data.date).toISOString(),

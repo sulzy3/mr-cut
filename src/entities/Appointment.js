@@ -1,8 +1,8 @@
 export class Appointment {
   constructor(data) {
     this.id = data.id;
-    this.customerName = data.customerName;
-    this.customerPhone = data.customerPhone;
+    this.clientName = data.clientName ?? data.client_name;
+    this.clientPhoneNumber = data.clientPhoneNumber ?? data.client_phone_number;
     // // Handle both combined dateTime and separate date/time fields
     // if (data.dateTime) {
     //   this.dateTime = data.dateTime;
@@ -64,6 +64,8 @@ export class Appointment {
         },
         body: JSON.stringify({
           // id: `${this.customerPhone}-${this.barberId}-${this.date}`,
+          client_name: this.clientName,
+          client_phone_number: this.clientPhoneNumber,
           date: this.date,
           time: this.time,
           service_id: this.serviceId,

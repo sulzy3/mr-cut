@@ -45,14 +45,16 @@ model Service {
 }
 
 model Appointment {
-  id          String   @id @default(cuid())
-  barber_id   String
-  service_id  String
-  date        DateTime
-  time        String
-  status      String   @default("PENDING")
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-  barber      Barber   @relation(fields: [barber_id], references: [id])
-  service     Service  @relation(fields: [service_id], references: [id])
+  id                    String   @id @default(cuid())
+  client_name           String
+  client_phone_number   String
+  barber_id             String
+  service_id            String
+  date                  DateTime
+  time                  String
+  status                String   @default("PENDING")
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+  barber                Barber   @relation(fields: [barber_id], references: [id])
+  service               Service  @relation(fields: [service_id], references: [id])
 } 

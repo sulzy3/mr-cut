@@ -72,7 +72,7 @@ export default function ServiceManagementPage() {
   };
 
   const getServiceDetails = (service) => [
-    { label: 'מחיר', value: `$${service.price}` },
+    { label: 'מחיר', value: `₪${service.price}` },
     { label: 'זמן', value: `${service.duration_minutes} דקות` }
   ];
 

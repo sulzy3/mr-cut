@@ -25,9 +25,9 @@ export default function AppointmentsManagementPage() {
     const loadAppointments = useCallback(async () => {
         try {
             const appointmentsList = await Appointment.getAll({
-                                                                  date: selectedDate,
-                                                              });
-            setAppointments(appointmentsList.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime()));
+                date: selectedDate,
+            });
+            setAppointments(appointmentsList.sort((a, b) => new Date(`${a.date.split("T")[0]}T${a.time}`).getTime() - new Date(`${b.date.split("T")[0]}T${b.time}`).getTime()));
             setError(null);
         } catch (error) {
             setError("Failed to load appointments");
@@ -85,12 +85,14 @@ export default function AppointmentsManagementPage() {
         try {
             const {barberId, serviceId} = formData;
 
+            console.log(formData);
+
             await new Appointment({
-                                      ...formData,
-                                        barber: barbers.find(b => b.id === barberId),
-                                        service: services.find(s => s.id === serviceId),
-                                      id,
-                                  }).save();
+                ...formData,
+                barber: barbers.find(b => b.id === barberId),
+                service: services.find(s => s.id === serviceId),
+                id,
+            }).save();
             await loadAppointments();
         } catch (error) {
             setError("Failed to update appointment");
@@ -116,6 +118,14 @@ export default function AppointmentsManagementPage() {
                     new Date(`${appointment.date.split("T")[0]}T${appointment.time}`),
                     "hh:mm"
                 ) : '',
+            },
+            {
+                label: "שם לקוח",
+                value: appointment.clientName,
+            },
+            {
+                label: "טלפון לקוח",
+                value: appointment.clientPhoneNumber,
             },
             {
                 label: "ספר",
@@ -149,6 +159,16 @@ export default function AppointmentsManagementPage() {
     };
 
     const appointmentFields = [
+        {
+            name: "clientName",
+            label: "שם לקוח",
+            required: true,
+        },
+        {
+            name: "clientPhoneNumber",
+            label: "טלפון",
+            required: true,
+        },
         {
             name: "date",
             label: "תאריך",
@@ -198,6 +218,24 @@ export default function AppointmentsManagementPage() {
             },
         },
         {
+            field: "clientName",
+            headerName: "שם לקוח",
+            align: "right",
+            valueGetter: (params) => {
+                const appointment = params.row;
+                return appointment?.clientName ?? "לא ידוע";
+            },
+        },
+        {
+            field: "clientPhoneNumber",
+            headerName: "טלפון",
+            align: "right",
+            valueGetter: (params) => {
+                const appointment = params.row;
+                return appointment?.clientPhoneNumber ?? "לא ידוע";
+            },
+        },
+        {
             field: "service",
             headerName: "שירות",
             align: "right",
@@ -236,6 +274,8 @@ export default function AppointmentsManagementPage() {
     ];
 
     const initialFormData = {
+        clientName: '',
+        clientPhoneNumber: '',
         date: selectedDate,
         time: "",
         serviceId: services[0]?.id,
