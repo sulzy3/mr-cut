@@ -87,7 +87,6 @@ export class Appointment {
   }
 
   async delete() {
-    console.log('inside')
     try {
       const response = await fetch(`/api/appointments/${this.id}`, {
         method: 'DELETE',

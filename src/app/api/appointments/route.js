@@ -54,12 +54,21 @@ export async function POST(request) {
     try {
         const data = await request.json();
 
+        const {barber_id, service_id, date, time, status} = data;
+
+        if(!(barber_id && service_id && date && time)){
+            return NextResponse.json(
+                {error: 'Missing appointment details'},
+                {status: 400}
+            );
+        }
+
         // Check if the appointment slot is available
 
         const isAvailable = await appointmentService.checkAvailability(
-            data.barber_id,
-            data.date,
-            data.time
+            barber_id,
+            date,
+            time
         );
 
         if (!isAvailable) {
@@ -72,11 +81,11 @@ export async function POST(request) {
         // Create the appointment using Prisma
         const appointment = await prisma.appointment.create({
             data: {
-                barber_id: data.barber_id,
-                service_id: data.service_id,
-                date: new Date(data.date),
-                time: data.time,
-                status: data.status || 'PENDING',
+                barber_id,
+                service_id,
+                date: new Date(data.date).toISOString(),
+                time: time,
+                status: status,
             },
             include: {
                 service: true,
