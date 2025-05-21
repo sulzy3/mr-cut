@@ -3,14 +3,6 @@ export class Appointment {
     this.id = data.id;
     this.clientName = data.clientName ?? data.client_name;
     this.clientPhoneNumber = data.clientPhoneNumber ?? data.client_phone_number;
-    // // Handle both combined dateTime and separate date/time fields
-    // if (data.dateTime) {
-    //   this.dateTime = data.dateTime;
-    // } else if (data.date && data.time) {
-    //   this.dateTime = `${data.date}T${data.time}`;
-    // } else {
-    //   this.dateTime = new Date().toISOString(); // Fallback to current time
-    // }
     this.date = data.date?.split("T")[0];
     this.time = data.time;
     this.serviceId = data.service?.id ?? data.serviceId;

@@ -11,6 +11,7 @@ const t = getTranslations(true);
 export default function ManagementDashboard() {
     const [upcomingAppointments, setUpcomingAppointments] = useState([]);
     const [error, setError] = useState(null);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         loadAppointments();
@@ -20,16 +21,17 @@ export default function ManagementDashboard() {
         try {
             // Get user data from cookie
             const userData = JSON.parse(Cookies.get('userData') || '{}');
+            setUser(userData);
 
-            if (!userData.id || userData.role !== 'BARBER') {
-                throw new Error('Barber data not found');
+            if (!userData.id || (userData.role !== 'ADMIN' && userData.role !== 'BARBER')) {
+                throw new Error('לא נמצא מידע עבור המשתמש המחובר');
             }
 
             // Get today's date in YYYY-MM-DD format
             const today = new Date().toISOString().split('T')[0];
 
             // Fetch appointments with barber ID (which is the same as user ID in our schema)
-            const response = await fetch(`/api/appointments?date=${today}&barberId=${userData.id}`);
+            const response = await fetch(`/api/appointments?date=${today}${userData.role === 'BARBER' ? `&barberId=${userData.id}` : ''}`);
 
             if (!response.ok) {
                 const errorData = await response.json();
@@ -52,12 +54,6 @@ export default function ManagementDashboard() {
 
     const managementCards = [
         {
-            title: t.serviceManagement,
-            icon: <Scissors size={24}/>,
-            href: '/management/services',
-            color: '#2D5043'
-        },
-        {
             title: t.appointmentManagement,
             icon: <Calendar size={24}/>,
             href: '/management/appointments',
@@ -70,6 +66,17 @@ export default function ManagementDashboard() {
             color: '#AFBFAD'
         }
     ];
+
+    if (user?.role === 'ADMIN') {
+        managementCards.push(
+            {
+                title: t.serviceManagement,
+                icon: <Scissors size={24}/>,
+                href: '/management/services',
+                color: '#2D5043',
+            }
+        );
+    }
 
     return (
         <Box>
@@ -144,7 +151,7 @@ export default function ManagementDashboard() {
                 {/* Management Cards */}
                 <Grid item xs={12}>
                     <Grid container spacing={3}>
-                        {managementCards.map((card) => (
+                        {managementCards.reverse().map((card) => (
                             <Grid item xs={12} sm={6} md={3} key={card.title}>
                                 <Card
                                     sx={{
@@ -175,7 +182,7 @@ export default function ManagementDashboard() {
                                             {card.description}
                                         </Typography>
                                     </CardContent>
-                                    <div style={{display:'flex', width:'100%', justifyContent: 'center'}}>
+                                    <div style={{display: 'flex', width: '100%', justifyContent: 'center'}}>
                                         <CardActions>
                                             <Button
                                                 size="small"
