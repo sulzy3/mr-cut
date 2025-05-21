@@ -5,15 +5,14 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Typography,
-  Box,
+  Container,
+  Divider,
   Grid,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Divider,
-  Container,
+  Typography,
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -103,7 +102,7 @@ export default function AboutPage() {
                     <AccessTimeIcon sx={{ color: '#2D5043' }} />
                   </ListItemIcon>
                   <ListItemText 
-                    primary="ראשון עד חמישי"
+                    primary="ראשון עד שישי"
                     secondary="09:00 - 20:00"
                     sx={{ textAlign: 'center' }}
                   />

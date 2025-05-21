@@ -254,7 +254,7 @@ export default function ClientLayout({children, currentPageName}) {
                                 {t.hours}
                             </Typography>
                             <Typography variant="body2" sx={{color: 'rgba(255, 255, 255, 0.7)'}}>
-                                ראשון עד חמישי:<br/>
+                                ראשון עד שישי:<br/>
                                 09:00 - 20:00
                             </Typography>
                         </Box>
