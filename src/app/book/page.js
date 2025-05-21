@@ -29,7 +29,7 @@ import {
 } from "@mui/material";
 import AvailableSlotsCard from "@/components/AvailableSlotsCard";
 import Cookies from "js-cookie";
-import { getTranslations } from "@/translations";
+import {getTranslations} from "@/translations";
 
 export default function BookPage() {
     const isHebrew = true;
@@ -39,8 +39,8 @@ export default function BookPage() {
     const [barbers, setBarbers] = useState([]);
     const [selectedServiceId, setSelectedServiceId] = useState("");
     const [selectedService, setSelectedService] = useState(null);
-    const [selectedBarber, setSelectedBarber] = useState("");
-    const [selectedDate, setSelectedDate] = useState("");
+    const [selectedBarber, setSelectedBarber] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(format(new Date(), 'yyyy-MM-dd'));
     const [selectedTime, setSelectedTime] = useState("");
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -65,8 +65,8 @@ export default function BookPage() {
                 const userData = Cookies.get("userData");
 
                 if (userData) {
-                    const {name, phone_number: phoneNumber} = JSON.parse(decodeURI(userData));
-                    setName(name);
+                    const {firstName, lastName, phone_number: phoneNumber} = JSON.parse(decodeURI(userData));
+                    setName(firstName ? `${firstName} ${lastName}` : "");
                     setPhone(phoneNumber);
                 }
             } catch (error) {
@@ -97,7 +97,7 @@ export default function BookPage() {
                 clientName: name,
                 clientPhoneNumber: phone,
                 serviceId: selectedServiceId,
-                barberId: selectedBarber,
+                barberId: selectedBarber?.id,
                 date: selectedDate,
                 time: selectedTime,
                 customerName: name,
@@ -129,22 +129,6 @@ export default function BookPage() {
             setSelectedServiceId(serviceId);
             setSelectedService(service);
         }
-    };
-
-    const getSelectedBarber = () => {
-        const barber = barbers.find((b) => b.id === selectedBarber);
-        if (!barber) return null;
-
-        return {
-            id: barber.id,
-            firstName: barber.firstName,
-            lastName: barber.lastName,
-            working_hours: barber.working_hours,
-            specialties: barber.specialties,
-            phone_number: barber.phone_number,
-            bio: barber.bio,
-            photo_url: barber.photo_url,
-        };
     };
 
     const formatDate = (dateString) => {
@@ -185,7 +169,7 @@ export default function BookPage() {
                                 fullWidth
                                 label={t.yourName}
                                 value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                onChange={(e) => setName(e.target.value ?? "")}
                                 required
                                 sx={{mb: 2}}
                             />
@@ -217,19 +201,20 @@ export default function BookPage() {
                         <CardHeader title={t.selectBarber}/>
                         <CardContent>
                             <FormControl component="fieldset">
-                                <RadioGroup
-                                    value={selectedBarber}
-                                    onChange={(e) => setSelectedBarber(e.target.value)}
-                                >
-                                    {barbers.map((barber) => (
-                                        <FormControlLabel
-                                            key={barber.id}
-                                            value={barber.id}
-                                            control={<Radio/>}
-                                            label={barber.firstName + " " + barber.lastName}
-                                        />
-                                    ))}
-                                </RadioGroup>
+                                {
+                                    barbers &&
+                                    <RadioGroup value={selectedBarber?.id ?? null}
+                                                onChange={(e) => setSelectedBarber(barbers.find(b => b.id === e.target.value))}>
+                                        {barbers.map((barber) => (
+                                            <FormControlLabel
+                                                key={barber.id}
+                                                value={barber.id}
+                                                control={<Radio/>}
+                                                label={barber.firstName + " " + barber.lastName}
+                                            />
+                                        ))}
+                                    </RadioGroup>
+                                }
                             </FormControl>
                         </CardContent>
                     </Card>
@@ -253,12 +238,9 @@ export default function BookPage() {
                                 />
                             </Box>
 
-                            <AvailableSlotsCard
-                                barberId={selectedBarber}
-                                selectedDate={selectedDate}
-                                onSlotSelect={(time) => setSelectedTime(time)}
-                                serviceDuration={selectedService?.duration}
-                            />
+                            <AvailableSlotsCard selectedBarber={selectedBarber}
+                                                selectedDate={selectedDate}
+                                                onSlotSelect={(time) => setSelectedTime(time)}/>
                         </CardContent>
                     </Card>
 
@@ -276,8 +258,8 @@ export default function BookPage() {
                                     <strong>{t.price}:</strong> ₪{selectedService?.price}
                                 </Typography>
                                 <Typography>
-                                    <strong>{t.barber}:</strong> {getSelectedBarber()?.firstName}{" "}
-                                    {getSelectedBarber()?.lastName}
+                                    <strong>{t.barber}:</strong> {selectedBarber?.firstName}{" "}
+                                    {selectedBarber?.lastName}
                                 </Typography>
                                 <Typography>
                                     <strong>{t.date}:</strong> {formatDate(selectedDate)}

@@ -44,7 +44,6 @@ export class Service {
       
       const requestBody = {
         name: this.name,
-        description: this.description,
         price: this.price,
         duration_minutes: this.duration_minutes
       };

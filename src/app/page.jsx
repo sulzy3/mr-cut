@@ -49,7 +49,7 @@ export default function Home() {
       }
 
       Cookies.set('userData', JSON.stringify(data.user));
-      if (data.user.role === 'BARBER') {
+      if (data.user.role === 'BARBER' || data.user.role === 'ADMIN') {
         router.push('/management');
       } else {
         router.push('/dashboard');

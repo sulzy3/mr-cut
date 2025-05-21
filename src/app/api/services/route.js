@@ -13,10 +13,10 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    const { name, description, duration_minutes, price } = await request.json();
+    const { name, duration_minutes, price } = await request.json();
 
     // Validate required fields
-    if (!name || !description || !duration_minutes || !price) {
+    if (!name || !duration_minutes || !price) {
       return NextResponse.json(
         { error: 'Name, description, duration_minutes, and price are required' },
         { status: 400 }
@@ -27,9 +27,9 @@ export async function POST(request) {
     const service = await prisma.service.create({
       data: {
         name,
-        description,
         duration_minutes,
-        price
+        price,
+        description:"null",
       }
     });
 
@@ -42,10 +42,10 @@ export async function POST(request) {
 
 export async function PUT(request) {
   try {
-    const { id, name, description, duration_minutes, price } = await request.json();
+    const { id, name, duration_minutes, price } = await request.json();
 
     // Validate required fields
-    if (!id || !name || !description || !duration_minutes || !price) {
+    if (!id || !name || !duration_minutes || !price) {
       return NextResponse.json(
         { error: 'ID, name, description, duration_minutes, and price are required' },
         { status: 400 }
@@ -57,9 +57,9 @@ export async function PUT(request) {
       where: { id },
       data: {
         name,
-        description,
         duration_minutes,
-        price
+        price,
+        description:"",
       }
     });
 
