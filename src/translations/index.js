@@ -86,7 +86,7 @@ export const translations = {
         easyBooking: "הזמן בקלות",
         bookOnline: "הזמן תור בכל זמן",
         flexibleHours: "שעות גמישות",
-        openSixDays: "פתוחים 5 ימים בשבוע",
+        openSixDays: "פתוחים 6 ימים בשבוע",
         primeLocation: "מיקום מרכזי",
         easilyAccessible: "נגיש בקלות בלב העיר",
         readyForFreshLook: "מוכנים למראה חדש?",
