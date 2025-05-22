@@ -26,8 +26,8 @@ export async function PUT(request, { params }) {
     console.log('Received update request:', { id, body });
 
     // Validate required fields
-    const { name, description, duration_minutes, price } = body;
-    if (!name || !description || !duration_minutes || !price) {
+    const { name, duration_minutes, price } = body;
+    if (!name || !duration_minutes || !price) {
       return NextResponse.json(
         { error: 'Name, description, duration_minutes, and price are required' },
         { status: 400 }
@@ -48,7 +48,7 @@ export async function PUT(request, { params }) {
       where: { id },
       data: {
         name,
-        description,
+        description: "",
         duration_minutes: Number(duration_minutes),
         price: Number(price)
       }

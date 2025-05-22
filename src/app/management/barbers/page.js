@@ -70,8 +70,8 @@ export default function BarbersManagement() {
     };
 
     const getBarberDetails = (barber) => [
-        {label: 'Phone', value: barber.phone_number},
-        {label: 'Specialties', value: barber.specialties?.join(', ')}
+        {label: 'שם מלא', value: `${barber.firstName} ${barber.lastName}`},
+        {label: 'טלפון', value: barber.phoneNumber},
     ];
 
     const barberFields = [

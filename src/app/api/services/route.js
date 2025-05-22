@@ -39,33 +39,3 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Failed to create service' }, { status: 500 });
   }
 }
-
-export async function PUT(request) {
-  try {
-    const { id, name, duration_minutes, price } = await request.json();
-
-    // Validate required fields
-    if (!id || !name || !duration_minutes || !price) {
-      return NextResponse.json(
-        { error: 'ID, name, description, duration_minutes, and price are required' },
-        { status: 400 }
-      );
-    }
-
-    // Update the service
-    const service = await prisma.service.update({
-      where: { id },
-      data: {
-        name,
-        duration_minutes,
-        price,
-        description:"",
-      }
-    });
-
-    return NextResponse.json(service);
-  } catch (error) {
-    console.error('Error updating service:', error);
-    return NextResponse.json({ error: 'Failed to update service' }, { status: 500 });
-  }
-} 
